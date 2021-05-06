@@ -3,4 +3,4 @@ project(IFE_Project C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(IFE_Project source/main.c)
+add_executable(IFE_Project source/main.c source/SaveFiles.c header/SaveFiles.h)
