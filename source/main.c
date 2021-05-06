@@ -6,6 +6,7 @@ void mainMenu(){
     printf("2 - Load an existing game\n");
     printf("3 - Quit\n");
     //scanf(" %d", &)
+    //C'est un test de commit
 }
 int main( )
 {
