@@ -3,15 +3,19 @@
 #include "../header/Display.h"
 
 
- int mainMenu(){
+ int getMainMenuChoice(){
     int choice=0;
-    initializeDisplay();
-    displayGrid();
     scanf(" %d", &choice);
-    return choice;
 
+    return choice;
 }
+
+
 int main( )
 {
-    mainMenu();
+    initializeDisplay();
+    displayMenu();
+
+    int mainMenuChoice;
+    mainMenuChoice = getMainMenuChoice();
 }
