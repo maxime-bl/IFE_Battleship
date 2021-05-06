@@ -1,13 +1,13 @@
 #include <stdio.h>
 
+#include "../header/Display.h"
+
+
  int mainMenu(){
     int choice=0;
-    printf("--- BATTLESHIP ---\n\n");
-    printf("1 - Start a new game\n");
-    printf("2 - Load an existing game\n");
-    printf("3 - Quit\n");
+    initializeDisplay();
+    displayGrid();
     scanf(" %d", &choice);
-
     return choice;
 
 }
