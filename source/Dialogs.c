@@ -12,15 +12,15 @@
 void init_dialogs(Dialog *dialogArray) {
     dialogArray[0].question = L"<1> Start a new game\n"
                           "<2> Load an existing game\n"
-                          "<3> Quit";
-    dialogArray[1].question = L"Choose a difficulty";
+                          "<3> Quit\n";
+    dialogArray[1].question = L"Choose a difficulty\n";
 
 }
 
 // Prints a dialog and an error message if the last answer was invalid
 void show_dialog(int dialogID, int errorCode, Dialog *dialogArray) {
     //insert error code
-    wprintf(L"%s", dialogArray[dialogID].question);
+    wprintf(L"\x1b[96m%s", dialogArray[dialogID].question);
 
 }
 

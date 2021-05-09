@@ -11,4 +11,4 @@ void show_menu();
 
 void show_grid();
 
-void init_display();
+int init_display();

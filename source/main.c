@@ -39,7 +39,7 @@ int main() {
         answer = get_answer();
         errorCode = check_answer(answer);
 
-        scanf(" %d", answer);
+        scanf(" %d", &answer);
 
 
     }
