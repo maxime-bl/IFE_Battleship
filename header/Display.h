@@ -7,8 +7,8 @@
 
 #endif //IFE_PROJECT_DISPLAY_H
 
-void displayMenu();
+void show_menu();
 
-void displayGrid();
+void show_grid();
 
-void initializeDisplay();
+void init_display();

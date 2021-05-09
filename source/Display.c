@@ -7,16 +7,20 @@
 
 #include "../header/Display.h"
 
-void initializeDisplay(){
+void init_display(){
     _setmode(_fileno(stdout), _O_U16TEXT);
+
 }
 
 
-void displayMenu(){
-    wprintf(L"┌    A   B   C   D   E   F   G   H   I   J\n");
+void show_menu(){
+    char *test = L"     ┌────────────────────┐\n"
+                 "     │     BATTLESHIP     │\n"
+                 "     └────────────────────┘\n";
+    wprintf(L"%s", test);
 }
 
-void displayGrid(){
+void show_grid(){
     wprintf(L"\n"
             "    A   B   C   D   E   F   G   H   I   J\n"
             "  ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐\n"
