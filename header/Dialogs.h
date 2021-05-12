@@ -18,6 +18,5 @@ void show_dialog(int dialogID, int errorCode, Dialog *dialogArray);
 
 int get_answer();
 
-int check_answer(int dialogID);
+int check_answer(int answer, int dialogID);
 
-void change_dialog_ID(int currentDialogID, int errorCode);

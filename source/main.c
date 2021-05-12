@@ -3,33 +3,58 @@
 
 #include "../header/Display.h"
 #include "../header/Dialogs.h"
+#include "../header/Grid.h"
 
-int errorCode=0, answer, gameLoop=1, dialogID=0;
-int windowID=0; //1=Main menu, 2=Game window
+int errorCode, answer, gameLoop, dialogID, windowID, difficulty;
 Dialog dialogArray[9];
+Grid grid;
 
 
 void init() {
+    windowID = 0;
+    errorCode = 0;
+    gameLoop = 1;
+    dialogID = 0;
+
     init_display();
     init_dialogs(dialogArray);
+    init_grid(grid, 10, 10);
 
 }
 
 
-void display_window(int windowID){
-    switch (windowID){
+void do_something(int dialogID, int answer) {
+    switch (dialogID) {
         case 0:
-            show_menu();
+            // main menu
+            switch (answer) {
+                case 1:
+                    dialogID = 1;
+                    windowID = 1;
+                    break;
+                case 2:
+                    //load the file and go to the game window
+                    break;
+                case 3:
+                    gameLoop = 0;
+                    break;
+            }
             break;
+
         case 1:
-            show_grid();
+            // difficulty menu
+            difficulty = answer;
+            dialogID = 2;
+            windowID = 2;
             break;
     }
 }
 
 
+
 int main() {
     init();
+    wprintf(L"%d", grid.array[0][1]);
 
     while (gameLoop) {
         display_window(windowID);
@@ -37,12 +62,20 @@ int main() {
 
         show_dialog(dialogID, errorCode, dialogArray);
         answer = get_answer();
-        errorCode = check_answer(answer);
+        //wprintf(L"%d\n", answer);
+        errorCode = check_answer(answer, dialogID);
 
-        scanf(" %d", &answer);
+        if (!errorCode) {
+            do_something(dialogID, answer);
+            //do something
+            // change question ID
+        } else {
+            // write error message next iteration
 
-
+        }
     }
+
+    free(grid.array);
 
     return EXIT_SUCCESS;
 }

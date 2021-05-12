@@ -7,8 +7,10 @@
 
 #endif //IFE_PROJECT_DISPLAY_H
 
-void show_menu();
+void show_main_menu();
 
 void show_grid();
 
 int init_display();
+
+void display_window(int windowID);
