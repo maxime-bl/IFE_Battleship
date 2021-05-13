@@ -9,7 +9,8 @@
 
 typedef struct {
     int height, width;
-    char (*array)[10];
+    //char array[10][10];
+    char **array;
 } Grid;
 
-void init_grid(Grid gridToInit, int width, int height);
+void init_grid(Grid *gridToInit, int width, int height);

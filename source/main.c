@@ -18,7 +18,7 @@ void init() {
 
     init_display();
     init_dialogs(dialogArray);
-    init_grid(grid, 10, 10);
+    init_grid(&grid, 10, 10);
 
 }
 
@@ -54,7 +54,6 @@ void do_something(int dialogID, int answer) {
 
 int main() {
     init();
-    wprintf(L"%d", grid.array[0][1]);
 
     while (gameLoop) {
         display_window(windowID);
