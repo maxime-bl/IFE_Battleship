@@ -3,4 +3,4 @@ project(IFE_Project C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(IFE_Project source/main.c source/SaveFiles.c header/SaveFiles.h source/Display.c header/Display.h source/Dialogs.c header/Dialogs.h source/Grid.c header/Grid.h)
+add_executable(IFE_Project source/main.c source/SaveFiles.c header/SaveFiles.h source/Display.c header/Display.h source/Dialogs.c header/Dialogs.h source/Grid.c header/Grid.h source/Boats.c header/Boats.h source/Missiles.c header/Missiles.h)

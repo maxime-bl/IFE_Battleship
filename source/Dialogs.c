@@ -11,14 +11,17 @@
  * 0 - Main menu
  * 1 - Difficulty choice
  * 2 - Game mode choice
- *
+ * 2 - What do you want to do ? (ingame)
  */
 
 void init_dialogs(Dialog *dialogArray) {
     dialogArray[0].question = L"╚════════════════════════════════════════════════════════════════════════════════╝\n";
     dialogArray[1].question = L"╚════════════════════════════════════════════════════════════════════════════════╝\n";
     dialogArray[2].question = L"╚════════════════════════════════════════════════════════════════════════════════╝\n";
-    dialogArray[3].question = L"Default dialog\n";
+    dialogArray[3].question = L"║  What do you want to do next?                                                  ║\n"
+                              "║    ► Play (Enter '1')                                                          ║\n"
+                              "║    ► Save and Quit (Enter '2')                                                 ║\n"
+                              "╚════════════════════════════════════════════════════════════════════════════════╝\n";
     dialogArray[4].question = L"Default dialog\n";
     dialogArray[5].question = L"Default dialog\n";
     dialogArray[6].question = L"Default dialog\n";
@@ -39,7 +42,7 @@ void show_dialog(int dialogID, int errorCode, Dialog *dialogArray) {
 }
 
 
-// Wait for the player input, get its answer and format it
+// Wait for the player input, get the answer and format it
 // Returns the ASCII code (lowercase) when a letter in entered
 // Returns -1 if the answer couldn't be formatted
 int get_answer() {
@@ -82,6 +85,7 @@ int get_answer() {
 *  1 = invalid input
 *  2 = out of bounds
 *  3 = unknown dialogID
+*  4 = out of ammunition (missile choice)
 */
 int check_answer(int answer, int dialogID) {
 

@@ -16,7 +16,7 @@ void init_grid(Grid *grid, int width, int height) {
         grid->array[i] = malloc(width * sizeof(char));
         for (int j = 0; j < width; j++) {
             grid->array[i][j] = '_';
-            wprintf(L"%d,%d = %c\n", i, j, grid->array[i][j]);
+            //wprintf(L"%d,%d = %c\n", i, j, grid->array[i][j]);
         }
     }
 }

@@ -5,8 +5,6 @@
 #ifndef IFE_PROJECT_GRID_H
 #define IFE_PROJECT_GRID_H
 
-#endif //IFE_PROJECT_GRID_H
-
 typedef struct {
     int height, width;
     //char array[10][10];
@@ -14,3 +12,6 @@ typedef struct {
 } Grid;
 
 void init_grid(Grid *gridToInit, int width, int height);
+
+#endif //IFE_PROJECT_GRID_H
+

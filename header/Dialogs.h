@@ -5,7 +5,6 @@
 #ifndef IFE_PROJECT_DIALOGS_H
 #define IFE_PROJECT_DIALOGS_H
 
-#endif //IFE_PROJECT_DIALOGS_H
 
 typedef struct {
     int lowestAnswer, highestAnswer;
@@ -20,3 +19,5 @@ int get_answer();
 
 int check_answer(int answer, int dialogID);
 
+
+#endif //IFE_PROJECT_DIALOGS_H
