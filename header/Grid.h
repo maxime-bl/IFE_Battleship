@@ -13,5 +13,7 @@ typedef struct {
 
 void init_grid(Grid *gridToInit, int width, int height);
 
+void reset_grid(Grid *grid);
+
 #endif //IFE_PROJECT_GRID_H
 

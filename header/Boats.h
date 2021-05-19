@@ -17,6 +17,8 @@ void init_boats(Boat *boatArray);
 
 void place_boats(Boat *boatArray, Grid grid);
 
+int is_alive(Boat boat);
+
 #endif //IFE_PROJECT_BOATS_H
 
 

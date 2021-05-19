@@ -77,3 +77,19 @@ void place_boats(Boat *array, Grid grid) {
     }
 }
 
+
+int is_alive(Boat boat){
+    int health=0;
+
+    for (int i=0; i<boat.size; i++){
+        if (boat.squares[i]>0){
+            health++;
+        }
+    }
+
+    if (health) {
+        return 1;
+    } else {
+        return 0;
+    }
+}

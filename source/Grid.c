@@ -12,11 +12,18 @@ void init_grid(Grid *grid, int width, int height) {
 
     // Allocate the memory for the array and initialize the values
     grid->array = malloc(height * sizeof(char *));
-    for (int i = 0; i < height; i++) {
-        grid->array[i] = malloc(width * sizeof(char));
-        for (int j = 0; j < width; j++) {
-            grid->array[i][j] = '_';
-            //wprintf(L"%d,%d = %c\n", i, j, grid->array[i][j]);
+    for (int row = 0; row < height; row++) {
+        grid->array[row] = malloc(width * sizeof(char));
+    }
+
+    reset_grid(grid);
+}
+
+void reset_grid(Grid *grid){
+    for (int row = 0; row < grid->height; row++) {
+        grid->array[row] = malloc(grid->width * sizeof(char));
+        for (int col = 0; col < grid->width; col++) {
+            grid->array[row][col] = '_';
         }
     }
 }
