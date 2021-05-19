@@ -16,15 +16,18 @@ void init_boats(Boat *array) {
 
     for (int b=0; b<5; b++){
         array[b].squares = malloc(array[b].size * sizeof(int));
+    }
+}
+
+
+void reset_boats(Boat *array){
+    for (int b=0; b<5; b++){
         for (int sq = 0; sq < array[b].size; sq++) {
             array[b].squares[sq] = 1;
         }
     }
-
-
-
-
 }
+
 
 void place_boats(Boat *array, Grid grid) {
     // initialize temporary grid

@@ -40,10 +40,10 @@ void init_inventory(Inventory *inventory, int diff) {
 void fire_artillery(Grid *grid, Boat *boatArray, int row, int col) {
     // inv.artilleryCnt --;
 
-    for (int b=0; b<5; b++){
-        if (is_alive(boatArray[b])){
-            for (int sq=0; sq<boatArray[b].size; sq++){
-                int row = boatA
+    for (int b = 0; b < 5; b++) {
+        if (is_alive(boatArray[b])) {
+            for (int sq = 0; sq < boatArray[b].size; sq++) {
+                int row = boatArray[b].row + (boatArray[b].orientation == 'h')*sq;
             }
         }
     }
