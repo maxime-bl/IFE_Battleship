@@ -16,9 +16,16 @@ void init_dialogs(Dialog *dialogArray) {
                                          "║    ► Play (Enter '1')                                                          ║\n"
                                          "║    ► Save and Quit (Enter '2')                                                 ║\n"
                                          "╚════════════════════════════════════════════════════════════════════════════════╝\n";
-    dialogArray[CHOOSE_ROW].question = L"Default dialog\n";
-    dialogArray[CHOOSE_COLUMN].question = L"Default dialog\n";
-    dialogArray[CHOOSE_MISSILE].question = L"Default dialog\n";
+    dialogArray[CHOOSE_ROW].question = L"║  Choose the row of your target (from 0 to 9).                                  ║\n"
+                                       "╚════════════════════════════════════════════════════════════════════════════════╝\n";
+    dialogArray[CHOOSE_COLUMN].question = L"║  Choose the column of your target (from A to J).                               ║\n"
+                                          "╚════════════════════════════════════════════════════════════════════════════════╝\n";
+    dialogArray[CHOOSE_MISSILE].question = L"║  Which missile do you want to use?                                             ║\n"
+                                           "║    ► Artillery missile (Enter '1')                                             ║\n"
+                                           "║    ► Tactical missile (Enter '2')                                              ║\n"
+                                           "║    ► Bomb (Enter '3')                                                          ║\n"
+                                           "║    ► Simple missile (Enter '4')                                                ║\n"
+                                           "╚════════════════════════════════════════════════════════════════════════════════╝\n";
     dialogArray[7].question = L"Default dialog\n";
 
 }
