@@ -15,6 +15,18 @@ Boat boatArray[5];
 Grid grid;
 Inventory inventory;
 
+void reset() {
+
+    windowID = MAIN_MENU;
+    errorCode = 0;
+    dialogID = MAIN_MENU;
+
+    reset_grid(&grid);
+    reset_boats(boatArray);
+    place_boats(boatArray, grid);
+
+}
+
 
 void init() {
 
@@ -23,18 +35,10 @@ void init() {
 
     init_grid(&grid, 10, 10);
     init_display();
-    init_dialogs(dialogArray);;
-}
-
-void reset() {
-
-    windowID = MAIN_MENU;
-    errorCode = 0;
-    dialogID = MAIN_MENU;
-
+    init_dialogs(dialogArray);
     init_boats(boatArray);
-    place_boats(boatArray, grid);
 
+    reset();
 }
 
 
@@ -98,10 +102,21 @@ void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int 
         case CHOOSE_COLUMN:
             col = answer;
             switch (missile) {
-                //case 1:
-                    //fire_artillery(*grid, boatArray, row, col);
+                case 1:
+                    fire_artillery(&grid, boatArray, row, col);
+                    break;
+                case 2:
+                    fire_tactical(&grid, boatArray, row, col);
+                    break;
+                case 3:
+                    fire_bomb(&grid, boatArray, row, col);
+                    break;
+                case 4:
+                    fire_single(&grid, boatArray, row, col);
+                    break;
             }
-
+            dialogID = PLAY_OR_QUIT;
+            break;
 
     }
 }
