@@ -9,6 +9,7 @@
 #include "../header/Display.h"
 
 int errorCode, answer, gameLoop, dialogID, windowID, difficulty, gameMode;
+int missile, row, col;
 Dialog dialogArray[9];
 Boat boatArray[5];
 Grid grid;
@@ -30,7 +31,7 @@ void init() {
 }
 
 
-void do_something(int *dialogID, int *windowID, int answer) {
+void do_something(int *dialogID, int *windowID, int answer, int *missile, int *row, int *col) {
     switch (*dialogID) {
         // main menu
         case MAIN_MENU:
@@ -40,7 +41,9 @@ void do_something(int *dialogID, int *windowID, int answer) {
                     *windowID = DIFF_MENU;
                     break;
                 case 2:
-                    //load the file and go to the game window
+                    //LOAD THE GAME FROM FILE
+                    //GO TO THE GAME WINDOW
+                    //DIALOG = PLAY_OR_QUIT
                     break;
                 case 3:
                     gameLoop = 0;
@@ -77,6 +80,22 @@ void do_something(int *dialogID, int *windowID, int answer) {
                     break;
             }
             break;
+        case CHOOSE_MISSILE:
+            *missile = answer;
+            *windowID = CHOOSE_ROW;
+            break;
+        case CHOOSE_ROW:
+            *row = answer;
+            *windowID = CHOOSE_COLUMN;
+            break;
+        case CHOOSE_COLUMN:
+            *col = answer;
+            switch (*missile) {
+                //case 1:
+                    //fire_artillery(*grid, boatArray, row, col);
+            }
+
+
     }
 }
 
@@ -94,7 +113,7 @@ int main() {
         errorCode = check_answer(answer, dialogID);
 
         if (!errorCode) {
-            do_something(&dialogID, &windowID, answer);
+            do_something(&dialogID, &windowID, answer, &missile, &row, &col);
             // change question ID
         }
     }

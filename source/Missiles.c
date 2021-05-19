@@ -3,27 +3,26 @@
 //
 
 #include "../header/Missiles.h"
+#include "../header/Grid.h"
+#include "../header/Boats.h"
 
 void init_inventory(Inventory *inventory, int diff) {
     switch (diff) {
-        // easy
-        case 1:
+        case 1: // easy
             inventory->maxArtillery = 10;
             inventory->maxBomb = 10;
             inventory->maxTactical = 10;
             inventory->maxSingle = 10;
             break;
 
-            // medium
-        case 2:
+        case 2: // medium
             inventory->maxArtillery = 3;
             inventory->maxBomb = 5;
             inventory->maxTactical = 5;
             inventory->maxSingle = 10;
             break;
 
-            // difficult
-        case 3:
+        case 3: // difficult
             inventory->maxArtillery = 1;
             inventory->maxBomb = 2;
             inventory->maxTactical = 4;
@@ -35,4 +34,24 @@ void init_inventory(Inventory *inventory, int diff) {
     inventory->bombCnt = inventory->maxBomb;
     inventory->tacticalCnt = inventory->maxTactical;
     inventory->singleCnt = inventory->maxSingle;
+}
+
+
+void fire_artillery(Grid *grid, Boat *boatArray, int row, int col) {
+
+}
+
+
+void fire_tactical(Grid *grid, Boat *boatArray, int row, int col) {
+
+}
+
+
+void fire_bomb(Grid *grid, Boat *boatArray, int row, int col) {
+
+}
+
+
+void fire_single(Grid *grid, Boat *boatArray, int row, int col) {
+
 }

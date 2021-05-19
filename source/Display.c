@@ -119,20 +119,8 @@ void show_boat_health(Boat boat) {
 
 void show_grid(Grid grid, Boat *boatArr, Inventory inv, int mode) {
     fifty_line_breaks();
-    /*char displayArr[grid.height][grid.width];
-
-    for (int row = 0; row < grid.height; row++) {
-        for (int col = 0; col < grid.width; col++) {
-            if (mode != 2) {
-                displayArr[row][col] = grid.array[row][col];
-            } else {
-                displayArr[row][col] = '_';
-            }
-        }
-    }*/
 
     // TO-DO :  make the top message functional
-    //          display boat health and state
     wprintf(L"╔════════════════════════════════════════════════════════════════════════════════╗\n"
             "║ Last round, %d ships were touched and %d destroyed                               ║\n"
             "╟────────────────────────────────────────────────────────────────────────────────╢\n"
@@ -200,7 +188,7 @@ void show_grid(Grid grid, Boat *boatArr, Inventory inv, int mode) {
             "║ 10 │");
     print_row(grid.array[9], grid.width);
 
-    wprintf(L"    │╚════════════════╧═════════╝│ ║\\n\"\n"
+    wprintf(L"    │╚════════════════╧═════════╝│ ║\n"
             "║    └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘    └────────────────────────────┘ ║\n"
             "║                                                                                ║\n"
             "╟────────────────────────────────────────────────────────────────────────────────╢\n");
