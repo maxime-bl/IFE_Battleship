@@ -17,19 +17,21 @@ Inventory inventory;
 
 
 void init() {
-    windowID = MAIN_MENU;
-    errorCode = 0;
+
     gameLoop = 1;
-    dialogID = MAIN_MENU;
     srand(time(NULL));
 
+    init_grid(&grid, 10, 10);
     init_display();
     init_dialogs(dialogArray);;
 }
 
 void reset() {
 
-    init_grid(&grid, 10, 10);
+    windowID = MAIN_MENU;
+    errorCode = 0;
+    dialogID = MAIN_MENU;
+
     init_boats(boatArray);
     place_boats(boatArray, grid);
 
