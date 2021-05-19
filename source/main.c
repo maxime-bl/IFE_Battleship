@@ -31,14 +31,14 @@ void init() {
 }
 
 
-void do_something(int *dialogID, int *windowID, int answer, int *missile, int *row, int *col) {
-    switch (*dialogID) {
+void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int *row, int *col*/) {
+    switch (dialogID) {
         // main menu
         case MAIN_MENU:
             switch (answer) {
                 case 1:
-                    *dialogID = DIFF_MENU;
-                    *windowID = DIFF_MENU;
+                    dialogID = DIFF_MENU;
+                    windowID = DIFF_MENU;
                     break;
                 case 2:
                     //LOAD THE GAME FROM FILE
@@ -54,8 +54,8 @@ void do_something(int *dialogID, int *windowID, int answer, int *missile, int *r
             // difficulty menu
         case DIFF_MENU:
             difficulty = answer;
-            *dialogID = GAMEMODE_MENU;
-            *windowID = GAMEMODE_MENU;
+            dialogID = GAMEMODE_MENU;
+            windowID = GAMEMODE_MENU;
             init_inventory(&inventory, difficulty);
             wprintf(L"Bombs : %d\n", inventory.bombCnt);
             break;
@@ -64,15 +64,15 @@ void do_something(int *dialogID, int *windowID, int answer, int *missile, int *r
         case GAMEMODE_MENU:
             gameMode = answer;
             place_boats(boatArray, grid);
-            *windowID = GAME_WINDOW;
-            *dialogID = PLAY_OR_QUIT;
+            windowID = GAME_WINDOW;
+            dialogID = PLAY_OR_QUIT;
             break;
 
             // play or quit (in game)
         case PLAY_OR_QUIT:
             switch (answer) {
                 case 1:
-                    *dialogID = CHOOSE_MISSILE;
+                    dialogID = CHOOSE_MISSILE;
                     break;
                 case 2:
                     // SAVE THE GAME
@@ -81,16 +81,16 @@ void do_something(int *dialogID, int *windowID, int answer, int *missile, int *r
             }
             break;
         case CHOOSE_MISSILE:
-            *missile = answer;
-            *dialogID = CHOOSE_ROW;
+            missile = answer;
+            dialogID = CHOOSE_ROW;
             break;
         case CHOOSE_ROW:
-            *row = answer-97;
-            *dialogID = CHOOSE_COLUMN;
+            row = answer-97;
+            dialogID = CHOOSE_COLUMN;
             break;
         case CHOOSE_COLUMN:
-            *col = answer;
-            switch (*missile) {
+            col = answer;
+            switch (missile) {
                 //case 1:
                     //fire_artillery(*grid, boatArray, row, col);
             }
