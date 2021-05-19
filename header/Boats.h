@@ -15,6 +15,8 @@ typedef struct {
 
 void init_boats(Boat *boatArray);
 
+void reset_boats(Boat *boatArray);
+
 void place_boats(Boat *boatArray, Grid grid);
 
 int is_alive(Boat boat);
