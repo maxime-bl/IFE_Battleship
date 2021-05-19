@@ -128,64 +128,64 @@ void show_grid(Grid grid, Boat *boatArr, Inventory inv, int mode) {
             "║                 ┌──────────────┐                │╔══════════════════════════╗│ ║\n"
             "║                 │     GRID     │                │║ Remaining missiles       ║│ ║\n"
             "║                 └──────────────┘                │╠════════════════════╤═════╣│ ║\n"
-            "║      A   B   C   D   E   F   G   H   I   J      │║ Artillery          │%02d/%02d║│ ║\n"
+            "║      0   1   2   3   4   5   6   7   8   9      │║ Artillery          │%02d/%02d║│ ║\n"
             "║    ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐    │╟────────────────────┼─────╢│ ║\n"
-            "║  1 │", 0, 0, inv.artilleryCnt, inv.maxArtillery);
+            "║  A │", 0, 0, inv.artilleryCnt, inv.maxArtillery);
     print_row(grid.array[0], grid.width);
 
     wprintf(L"    │║ Tactical           │%02d/%02d║│ ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │╟────────────────────┼─────╢│ ║\n"
-            "║  2 │", inv.tacticalCnt, inv.maxTactical);
+            "║  B │", inv.tacticalCnt, inv.maxTactical);
     print_row(grid.array[1], grid.width);
 
     wprintf(L"    │║ Bomb               │%02d/%02d║│ ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │╟────────────────────┼─────╢│ ║\n"
-            "║  3 │", inv.bombCnt, inv.maxBomb);
+            "║  C │", inv.bombCnt, inv.maxBomb);
     print_row(grid.array[2], grid.width);
 
     wprintf(L"    │║ Single             │%02d/%02d║│ ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │╚════════════════════╧═════╝│ ║\n"
-            "║  4 │", inv.singleCnt, inv.maxSingle);
+            "║  D │", inv.singleCnt, inv.maxSingle);
     print_row(grid.array[3], grid.width);
 
     wprintf(L"    │╔══════════════════════════╗│ ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │║ Remaining fleet          ║│ ║\n"
-            "║  5 │");
+            "║  E │");
     print_row(grid.array[4], grid.width);
 
     wprintf(L"    │╠════════════════╤═════════╣│ ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │║");
     show_boat_health(boatArr[0]);
     wprintf(L"║│ ║\n"
-            "║  6 │");
+            "║  F │");
     print_row(grid.array[5], grid.width);
 
     wprintf(L"    │╟────────────────┼─────────╢│ ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │║");
     show_boat_health(boatArr[1]);
     wprintf(L"║│ ║\n"
-            "║  7 │");
+            "║  G │");
     print_row(grid.array[6], grid.width);
 
     wprintf(L"    │╟────────────────┼─────────╢│ ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │║");
     show_boat_health(boatArr[2]);
     wprintf(L"║│ ║\n"
-            "║  8 │");
+            "║  H │");
     print_row(grid.array[7], grid.width);
 
     wprintf(L"    │╟────────────────┼─────────╢│ ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │║");
     show_boat_health(boatArr[3]);
     wprintf(L"║│ ║\n"
-            "║  9 │");
+            "║  I │");
     print_row(grid.array[8], grid.width);
 
     wprintf(L"    │╟────────────────┼─────────╢│ ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │║");
     show_boat_health(boatArr[4]);
     wprintf(L"║│ ║\n"
-            "║ 10 │");
+            "║  J │");
     print_row(grid.array[9], grid.width);
 
     wprintf(L"    │╚════════════════╧═════════╝│ ║\n"

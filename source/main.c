@@ -85,7 +85,7 @@ void do_something(int *dialogID, int *windowID, int answer, int *missile, int *r
             *dialogID = CHOOSE_ROW;
             break;
         case CHOOSE_ROW:
-            *row = answer;
+            *row = answer-97;
             *dialogID = CHOOSE_COLUMN;
             break;
         case CHOOSE_COLUMN:
@@ -110,7 +110,7 @@ int main() {
         //wprintf(L"Dialog %d, window %d, last answer %d\n", dialogID, windowID, answer);
         answer = get_answer();
         //wprintf(L"%d\n", answer);
-        errorCode = check_answer(answer, dialogID);
+        errorCode = check_answer(answer, dialogID, inventory);
 
         if (!errorCode) {
             do_something(&dialogID, &windowID, answer, &missile, &row, &col);

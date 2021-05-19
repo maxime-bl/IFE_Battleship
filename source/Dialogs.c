@@ -3,6 +3,7 @@
 //
 
 #include "../header/Dialogs.h"
+#include "../header/Missiles.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -16,9 +17,9 @@ void init_dialogs(Dialog *dialogArray) {
                                          "║    ► Play (Enter '1')                                                          ║\n"
                                          "║    ► Save and Quit (Enter '2')                                                 ║\n"
                                          "╚════════════════════════════════════════════════════════════════════════════════╝\n";
-    dialogArray[CHOOSE_ROW].question = L"║  Choose the row of your target (from 0 to 9).                                  ║\n"
+    dialogArray[CHOOSE_ROW].question = L"║  Choose the row of your target (from A to J).                                  ║\n"
                                        "╚════════════════════════════════════════════════════════════════════════════════╝\n";
-    dialogArray[CHOOSE_COLUMN].question = L"║  Choose the column of your target (from A to J).                               ║\n"
+    dialogArray[CHOOSE_COLUMN].question = L"║  Choose the column of your target (from 0 to 9).                               ║\n"
                                           "╚════════════════════════════════════════════════════════════════════════════════╝\n";
     dialogArray[CHOOSE_MISSILE].question = L"║  Which missile do you want to use?                                             ║\n"
                                            "║    ► Artillery missile (Enter '1')                                             ║\n"
@@ -109,7 +110,7 @@ int get_answer() {
 *  3 = unknown dialogID
 *  4 = out of ammunition (missile choice)
 */
-int check_answer(int answer, int dialogID) {
+int check_answer(int answer, int dialogID, Inventory inv) {
 
     if (answer == -1) {
         // input was not an integer or a letter
@@ -134,19 +135,42 @@ int check_answer(int answer, int dialogID) {
                     return OUT_OF_BOUNDS;
                 }
             case CHOOSE_MISSILE:
-                if (answer >= 1 && answer <= 4) {
-                    return 0;
-                } else {
-                    return OUT_OF_BOUNDS;
+                switch (answer) {
+                    case 1:
+                        if (inv.artilleryCnt > 0) {
+                            return 0;
+                        } else {
+                            return OUT_OF_AMMO;
+                        }
+                    case 2:
+                        if (inv.tacticalCnt > 0) {
+                            return 0;
+                        } else {
+                            return OUT_OF_AMMO;
+                        }
+                    case 3:
+                        if (inv.bombCnt > 0) {
+                            return 0;
+                        } else {
+                            return OUT_OF_AMMO;
+                        }
+                    case 4:
+                        if (inv.singleCnt > 0) {
+                            return 0;
+                        } else {
+                            return OUT_OF_AMMO;
+                        }
+                    default:
+                        return OUT_OF_BOUNDS;
                 }
             case CHOOSE_ROW:
-                if (answer >= 97 && answer < 106) {
+                if (answer >= 97 && answer <= 106) {
                     return 0;
                 } else {
                     return OUT_OF_BOUNDS;
                 }
             case CHOOSE_COLUMN:
-                if (answer >= 1 && answer <= 10) {
+                if (answer >= 0 && answer <= 9) {
                     return 0;
                 } else {
                     return OUT_OF_BOUNDS;

@@ -6,6 +6,8 @@
 #define IFE_PROJECT_DIALOGS_H
 
 // error codes
+#include "Missiles.h"
+
 #define INVALID_INPUT  1
 #define OUT_OF_BOUNDS  2
 #define UNKNOWN_DIALOG_ID  3
@@ -32,7 +34,7 @@ void show_dialog(int dialogID, int errorCode, Dialog *dialogArray);
 
 int get_answer();
 
-int check_answer(int answer, int dialogID);
+int check_answer(int answer, int dialogID, Inventory inv);
 
 
 #endif //IFE_PROJECT_DIALOGS_H
