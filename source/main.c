@@ -21,6 +21,7 @@ void init() {
     gameLoop = 1;
     srand(time(NULL));
 
+    init_grid(&grid, 10, 10);
     init_display();
     init_dialogs(dialogArray);;
 }
@@ -31,7 +32,6 @@ void reset() {
     errorCode = 0;
     dialogID = MAIN_MENU;
 
-    init_grid(&grid, 10, 10);
     init_boats(boatArray);
     place_boats(boatArray, grid);
 
