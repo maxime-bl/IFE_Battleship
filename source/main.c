@@ -82,11 +82,11 @@ void do_something(int *dialogID, int *windowID, int answer, int *missile, int *r
             break;
         case CHOOSE_MISSILE:
             *missile = answer;
-            *windowID = CHOOSE_ROW;
+            *dialogID = CHOOSE_ROW;
             break;
         case CHOOSE_ROW:
             *row = answer;
-            *windowID = CHOOSE_COLUMN;
+            *dialogID = CHOOSE_COLUMN;
             break;
         case CHOOSE_COLUMN:
             *col = answer;
