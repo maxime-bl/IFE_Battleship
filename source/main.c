@@ -24,10 +24,15 @@ void init() {
     srand(time(NULL));
 
     init_display();
-    init_dialogs(dialogArray);
+    init_dialogs(dialogArray);;
+}
+
+void reset() {
+
     init_grid(&grid, 10, 10);
     init_boats(boatArray);
     place_boats(boatArray, grid);
+
 }
 
 
