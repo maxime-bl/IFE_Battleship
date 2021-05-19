@@ -7,24 +7,18 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-/* ID:
- * 0 - Main menu
- * 1 - Difficulty choice
- * 2 - Game mode choice
- * 2 - What do you want to do ? (ingame)
- */
 
 void init_dialogs(Dialog *dialogArray) {
-    dialogArray[0].question = L"╚════════════════════════════════════════════════════════════════════════════════╝\n";
-    dialogArray[1].question = L"╚════════════════════════════════════════════════════════════════════════════════╝\n";
-    dialogArray[2].question = L"╚════════════════════════════════════════════════════════════════════════════════╝\n";
-    dialogArray[3].question = L"║  What do you want to do next?                                                  ║\n"
-                              "║    ► Play (Enter '1')                                                          ║\n"
-                              "║    ► Save and Quit (Enter '2')                                                 ║\n"
-                              "╚════════════════════════════════════════════════════════════════════════════════╝\n";
-    dialogArray[4].question = L"Default dialog\n";
-    dialogArray[5].question = L"Default dialog\n";
-    dialogArray[6].question = L"Default dialog\n";
+    dialogArray[MAIN_MENU].question = L"╚════════════════════════════════════════════════════════════════════════════════╝\n";
+    dialogArray[DIFF_MENU].question = L"╚════════════════════════════════════════════════════════════════════════════════╝\n";
+    dialogArray[GAMEMODE_MENU].question = L"╚════════════════════════════════════════════════════════════════════════════════╝\n";
+    dialogArray[PLAY_OR_QUIT].question = L"║  What do you want to do next?                                                  ║\n"
+                                         "║    ► Play (Enter '1')                                                          ║\n"
+                                         "║    ► Save and Quit (Enter '2')                                                 ║\n"
+                                         "╚════════════════════════════════════════════════════════════════════════════════╝\n";
+    dialogArray[CHOOSE_ROW].question = L"Default dialog\n";
+    dialogArray[CHOOSE_COLUMN].question = L"Default dialog\n";
+    dialogArray[CHOOSE_MISSILE].question = L"Default dialog\n";
     dialogArray[7].question = L"Default dialog\n";
 
 }
@@ -33,12 +27,33 @@ void init_dialogs(Dialog *dialogArray) {
 // Prints a dialog and an error message if the last answer was invalid
 void show_dialog(int dialogID, int errorCode, Dialog *dialogArray) {
     //insert error code
-    if (errorCode){
-        wprintf(L"\x1b[97m║                    \x1b[91mThe input is incorrect. Please try again                    \x1b[0m║\n"
-                "║                                                                                ║\n");
-    }
-    wprintf(L"%s", dialogArray[dialogID].question);
+    switch (errorCode) {
+        case 0:
+            break;
+        case INVALID_INPUT:
+            wprintf(L"\x1b[97m║                    \x1b[91mThe input is incorrect. Please try again                    \x1b[0m║\n"
+                    "║                                                                                ║\n");
+            break;
+        case OUT_OF_BOUNDS:
+            wprintf(L"\x1b[97m║                   \x1b[91mThis value is not valid. Please try again                    \x1b[0m║\n"
+                    "║                                                                                ║\n");
+            break;
+        case UNKNOWN_DIALOG_ID:
+            wprintf(L"\x1b[97m║              \x1b[91mSomething that was not supposed to happen did happen              \x1b[0m║\n"
+                    "║                                                                                ║\n");
+            break;
+        case OUT_OF_AMMO:
+            wprintf(L"\x1b[97m║               \x1b[91mThis weapon is out of ammunition. Try another one                \x1b[0m║\n"
+                    "║                                                                                ║\n");
+            break;
+        default:
+            wprintf(L"\x1b[97m║\x1b[91mERROR: the error you caused is not listed. Congratulations, you broke the game  \x1b[0m║\n"
+                    "║                                                                                ║\n");
+            break;
 
+    }
+
+    wprintf(L"%s", dialogArray[dialogID].question);
 }
 
 
@@ -91,46 +106,46 @@ int check_answer(int answer, int dialogID) {
 
     if (answer == -1) {
         // input was not an integer or a letter
-        return 1;
+        return INVALID_INPUT;
     } else {
         // input was valid
         switch (dialogID) {
-            case 0:
-            case 1:
-            case 2:
+            case MAIN_MENU:
+            case DIFF_MENU:
+            case GAMEMODE_MENU:
                 if (answer >= 1 && answer <= 3) {
                     return 0;
                 } else {
-                    return 2;
+                    return OUT_OF_BOUNDS;
                 }
-            case 3:
+            case PLAY_OR_QUIT:
             case 7:
             case 8:
                 if (answer == 1 || answer == 2) {
                     return 0;
                 } else {
-                    return 2;
+                    return OUT_OF_BOUNDS;
                 }
-            case 4:
+            case CHOOSE_MISSILE:
                 if (answer >= 1 && answer <= 4) {
                     return 0;
                 } else {
-                    return 2;
+                    return OUT_OF_BOUNDS;
                 }
-            case 5:
+            case CHOOSE_ROW:
                 if (answer >= 97 && answer < 106) {
                     return 0;
                 } else {
-                    return 2;
+                    return OUT_OF_BOUNDS;
                 }
-            case 6:
-                if (answer >= 1 && answer <=10 ) {
+            case CHOOSE_COLUMN:
+                if (answer >= 1 && answer <= 10) {
                     return 0;
                 } else {
-                    return 2;
+                    return OUT_OF_BOUNDS;
                 }
             default:
-                return 3;
+                return UNKNOWN_DIALOG_ID;
         }
     }
 }

@@ -10,6 +10,7 @@ typedef struct {
     int row, col;
     int size;
     char orientation;
+    int *squares;
 } Boat;
 
 void init_boats(Boat *boatArray);

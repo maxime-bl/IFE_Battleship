@@ -9,46 +9,46 @@
 #include <windows.h>
 
 #include "../header/Display.h"
+#include "../header/Grid.h"
+#include "../header/Boats.h"
+#include "../header/Missiles.h"
 
 #ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
 #define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
 #endif
 
 
-int init_display(){
+int init_display() {
     // enables unicode font in the console
     _setmode(_fileno(stdout), _O_U16TEXT);
 
     // enables colors in the console
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (hOut == INVALID_HANDLE_VALUE)
-    {
+    if (hOut == INVALID_HANDLE_VALUE) {
         return GetLastError();
     }
 
     DWORD dwMode = 0;
-    if (!GetConsoleMode(hOut, &dwMode))
-    {
+    if (!GetConsoleMode(hOut, &dwMode)) {
         return GetLastError();
     }
 
     dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-    if (!SetConsoleMode(hOut, dwMode))
-    {
+    if (!SetConsoleMode(hOut, dwMode)) {
         return GetLastError();
     }
 
 }
 
 
-void fifty_line_breaks(){
-    for (int i=0; i<50; i++){
+void fifty_line_breaks() {
+    for (int i = 0; i < 50; i++) {
         wprintf(L"\n");
     }
 }
 
 
-void show_main_menu(){
+void show_main_menu() {
     fifty_line_breaks();
     wprintf(L"╔════════════════════════════════════════════════════════════════════════════════╗\n"
             "║                               ╔──────────────────╗                             ║\n"
@@ -77,9 +77,136 @@ void show_main_menu(){
             "║            © 2021 IFE Project by Maxime Blanchard and Manon Truchet            ║\n");
 }
 
-void show_grid(){
+
+// prints one row of the grid
+void print_row(char *arr, int rowLength) {
+    for (int i = 0; i < rowLength; i++) {
+        wprintf(L" %c │", arr[i]);
+    }
+}
+
+
+// show the boat's number of hit squares and its state
+void show_boat_health(Boat boat) {
+    int health=0;
+
+    for (int i = 0; i < boat.size; i++) {
+        if (boat.squares[0] > 0) {
+            wprintf(L" ●");
+            health++;
+        } else {
+            wprintf(L" ◯");
+        }
+    }
+
+    for (int j = 0; j < 8 - boat.size; j++) {
+        wprintf(L"  ");
+    }
+
+    unsigned short *state;
+
+    if (health == 0) {
+        state = L"DESTROYED";
+    } else if (health < boat.size) {
+        state = L"HIT      ";
+    } else {
+        state = L"INTACT   ";
+    }
+
+    wprintf(L"│%s",state);
+}
+
+
+void show_grid(Grid grid, Boat *boatArr, Inventory inv, int mode) {
     fifty_line_breaks();
+    /*char displayArr[grid.height][grid.width];
+
+    for (int row = 0; row < grid.height; row++) {
+        for (int col = 0; col < grid.width; col++) {
+            if (mode != 2) {
+                displayArr[row][col] = grid.array[row][col];
+            } else {
+                displayArr[row][col] = '_';
+            }
+        }
+    }*/
+
+    // TO-DO :  make the top message functional
+    //          display boat health and state
     wprintf(L"╔════════════════════════════════════════════════════════════════════════════════╗\n"
+            "║ Last round, %d ships were touched and %d destroyed                               ║\n"
+            "╟────────────────────────────────────────────────────────────────────────────────╢\n"
+            "║                                                 ┌────────────────────────────┐ ║\n"
+            "║                 ┌──────────────┐                │╔══════════════════════════╗│ ║\n"
+            "║                 │     GRID     │                │║ Remaining missiles       ║│ ║\n"
+            "║                 └──────────────┘                │╠════════════════════╤═════╣│ ║\n"
+            "║      A   B   C   D   E   F   G   H   I   J      │║ Artillery          │%02d/%02d║│ ║\n"
+            "║    ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐    │╟────────────────────┼─────╢│ ║\n"
+            "║  1 │", 0, 0, inv.artilleryCnt, inv.maxArtillery);
+    print_row(grid.array[0], grid.width);
+
+    wprintf(L"    │║ Tactical           │%02d/%02d║│ ║\n"
+            "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │╟────────────────────┼─────╢│ ║\n"
+            "║  2 │", inv.tacticalCnt, inv.maxTactical);
+    print_row(grid.array[1], grid.width);
+
+    wprintf(L"    │║ Bomb               │%02d/%02d║│ ║\n"
+            "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │╟────────────────────┼─────╢│ ║\n"
+            "║  3 │", inv.bombCnt, inv.maxBomb);
+    print_row(grid.array[2], grid.width);
+
+    wprintf(L"    │║ Single             │%02d/%02d║│ ║\n"
+            "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │╚════════════════════╧═════╝│ ║\n"
+            "║  4 │", inv.singleCnt, inv.maxSingle);
+    print_row(grid.array[3], grid.width);
+
+    wprintf(L"    │╔══════════════════════════╗│ ║\n"
+            "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │║ Remaining fleet          ║│ ║\n"
+            "║  5 │");
+    print_row(grid.array[4], grid.width);
+
+    wprintf(L"    │╠════════════════╤═════════╣│ ║\n"
+            "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │║");
+    show_boat_health(boatArr[0]);
+    wprintf(L"║│ ║\n"
+            "║  6 │");
+    print_row(grid.array[5], grid.width);
+
+    wprintf(L"    │╟────────────────┼─────────╢│ ║\n"
+            "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │║");
+    show_boat_health(boatArr[1]);
+    wprintf(L"║│ ║\n"
+            "║  7 │");
+    print_row(grid.array[6], grid.width);
+
+    wprintf(L"    │╟────────────────┼─────────╢│ ║\n"
+            "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │║");
+    show_boat_health(boatArr[2]);
+    wprintf(L"║│ ║\n"
+            "║  8 │");
+    print_row(grid.array[7], grid.width);
+
+    wprintf(L"    │╟────────────────┼─────────╢│ ║\n"
+            "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │║");
+    show_boat_health(boatArr[3]);
+    wprintf(L"║│ ║\n"
+            "║  9 │");
+    print_row(grid.array[8], grid.width);
+
+    wprintf(L"    │╟────────────────┼─────────╢│ ║\n"
+            "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │║");
+    show_boat_health(boatArr[4]);
+    wprintf(L"║│ ║\n"
+            "║ 10 │");
+    print_row(grid.array[9], grid.width);
+
+    wprintf(L"    │╚════════════════╧═════════╝│ ║\\n\"\n"
+            "║    └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘    └────────────────────────────┘ ║\n"
+            "║                                                                                ║\n"
+            "╟────────────────────────────────────────────────────────────────────────────────╢\n");
+
+
+    /*      "╔════════════════════════════════════════════════════════════════════════════════╗\n"
             "║ Last round, x ships were touched and y destroyed                               ║\n"
             "╟────────────────────────────────────────────────────────────────────────────────╢\n"
             "║                                                 ┌────────────────────────────┐ ║\n"
@@ -88,7 +215,7 @@ void show_grid(){
             "║                 └──────────────┘                │╠════════════════════╤═════╣│ ║\n"
             "║      A   B   C   D   E   F   G   H   I   J      │║ Artillery          │ ./. ║│ ║\n"
             "║    ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐    │╟────────────────────┼─────╢│ ║\n"
-            "║  1 │   │   │   │   │   │   │   │   │   │ - │    │║ Tactical           │ ./. ║│ ║\n"
+            "║  1 │   │   │   │   │   │   │   │   │   │   │    │║ Tactical           │ ./. ║│ ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │╟────────────────────┼─────╢│ ║\n"
             "║  2 │   │   │   │   │   │   │   │   │   │ - │    │║ Bomb               │ ./. ║│ ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤    │╟────────────────────┼─────╢│ ║\n"
@@ -109,11 +236,11 @@ void show_grid(){
             "║ 10 │   │ x │   │   │   │   │   │   │   │   │    │╚════════════════╧═════════╝│ ║\n"
             "║    └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘    └────────────────────────────┘ ║\n"
             "║                                                                                ║\n"
-            "╟────────────────────────────────────────────────────────────────────────────────╢\n");
+            "╟────────────────────────────────────────────────────────────────────────────────╢\n"*/
 }
 
 
-void show_diff_menu(){
+void show_diff_menu() {
     fifty_line_breaks();
     wprintf(L"╔════════════════════════════════════════════════════════════════════════════════╗\n"
             "║                              ╔──────────────────╗                              ║\n"
@@ -137,7 +264,8 @@ void show_diff_menu(){
 }
 
 
-void show_mode_menu(){
+void show_mode_menu() {
+    fifty_line_breaks();
     wprintf(L"╔════════════════════════════════════════════════════════════════════════════════╗\n"
             "║                              ╔──────────────────╗                              ║\n"
             "║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒│     NEW GAME     │▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒║\n"
@@ -160,19 +288,19 @@ void show_mode_menu(){
 }
 
 
-void display_window(int windowID){
-    switch (windowID){
-        case 0:
+void display_window(int windowID, Grid grid, Boat *boatArray, Inventory inv, int mode) {
+    switch (windowID) {
+        case MAIN_MENU:
             show_main_menu();
             break;
-        case 1:
+        case DIFF_MENU:
             show_diff_menu();
             break;
-        case 2:
+        case GAMEMODE_MENU:
             show_mode_menu();
             break;
-        case 3:
-            show_grid();
+        case GAME_WINDOW:
+            show_grid(grid, boatArray, inv, mode);
             break;
     }
 }

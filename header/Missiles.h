@@ -7,6 +7,9 @@
 
 typedef struct {
     int artilleryCnt, tacticalCnt, bombCnt, singleCnt;
+    int maxArtillery, maxTactical, maxBomb, maxSingle;
 } Inventory;
 
 #endif //IFE_PROJECT_MISSILES_H
+
+void init_inventory(Inventory *inventoryToInit, int difficulty);
