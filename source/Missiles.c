@@ -44,6 +44,7 @@ void fire_artillery(Grid *grid, Boat *boatArray, int row, int col) {
         if (is_alive(boatArray[b])) {
             for (int sq = 0; sq < boatArray[b].size; sq++) {
                 int row = boatArray[b].row + (boatArray[b].orientation == 'h')*sq;
+                int col = boatArray[b].col + (boatArray[b].orientation == 'v')*sq;
             }
         }
     }

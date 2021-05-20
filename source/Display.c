@@ -91,7 +91,7 @@ void show_boat_health(Boat boat) {
     int health=0;
 
     for (int i = 0; i < boat.size; i++) {
-        if (boat.squares[0] > 0) {
+        if (boat.squares[i] > 0) {
             wprintf(L" ●");
             health++;
         } else {

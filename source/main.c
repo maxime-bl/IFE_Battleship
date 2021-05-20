@@ -15,6 +15,7 @@ Boat boatArray[5];
 Grid grid;
 Inventory inventory;
 
+
 void reset() {
 
     windowID = MAIN_MENU;

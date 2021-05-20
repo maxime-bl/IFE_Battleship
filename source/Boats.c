@@ -17,6 +17,7 @@ void init_boats(Boat *array) {
     for (int b=0; b<5; b++){
         array[b].squares = malloc(array[b].size * sizeof(int));
     }
+
 }
 
 
@@ -26,6 +27,8 @@ void reset_boats(Boat *array){
             array[b].squares[sq] = 1;
         }
     }
+
+    array[0].squares[0] = 0;
 }
 
 
