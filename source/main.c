@@ -10,6 +10,7 @@
 
 int errorCode, answer, gameLoop, dialogID, windowID, difficulty, gameMode;
 int missile, row, col;
+int boatHitCnt, boatDestroyedCnt;
 Dialog dialogArray[9];
 Boat boatArray[5];
 Grid grid;
@@ -21,6 +22,8 @@ void reset() {
     windowID = MAIN_MENU;
     errorCode = 0;
     dialogID = MAIN_MENU;
+    boatHitCnt = 0;
+    boatDestroyedCnt = 0;
 
     reset_grid(&grid);
     reset_boats(boatArray);
@@ -102,18 +105,23 @@ void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int 
             break;
         case CHOOSE_COLUMN:
             col = answer;
+            if (gameMode > 1){
+                reset_grid(&grid);
+            }
+
+
             switch (missile) {
                 case 1:
-                    fire_artillery(&grid, boatArray, row, col);
+                    fire_artillery(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory, gameMode);
                     break;
                 case 2:
-                    fire_tactical(&grid, boatArray, row, col);
+                    fire_tactical(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory);
                     break;
                 case 3:
-                    fire_bomb(&grid, boatArray, row, col);
+                    fire_bomb(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory);
                     break;
                 case 4:
-                    fire_single(&grid, boatArray, row, col);
+                    fire_single(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory);
                     break;
             }
             dialogID = PLAY_OR_QUIT;
@@ -127,7 +135,7 @@ int main() {
     init();
 
     while (gameLoop) {
-        display_window(windowID, grid, boatArray, inventory, gameMode);
+        display_window(windowID, grid, boatArray, inventory, gameMode, boatHitCnt, boatDestroyedCnt);
 
         show_dialog(dialogID, errorCode, dialogArray);
         //wprintf(L"Dialog %d, window %d, last answer %d\n", dialogID, windowID, answer);

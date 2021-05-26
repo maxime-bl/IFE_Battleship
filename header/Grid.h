@@ -7,7 +7,6 @@
 
 typedef struct {
     int height, width;
-    //char array[10][10];
     char **array;
 } Grid;
 

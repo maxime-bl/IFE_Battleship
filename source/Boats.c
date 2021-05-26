@@ -27,8 +27,6 @@ void reset_boats(Boat *array){
             array[b].squares[sq] = 1;
         }
     }
-
-    array[0].squares[0] = 0;
 }
 
 
@@ -47,14 +45,13 @@ void place_boats(Boat *array, Grid grid) {
 
         do {
             squaresTaken = 0;
+            //randomize orientation, row and col of the top-left square
             array[i].orientation = 104 + (rand() % 2) * 14;
             array[i].row = rand() % (grid.height - (array[i].orientation == 'v') * array[i].size);
             array[i].col = rand() % (grid.width - (array[i].orientation == 'h') * array[i].size);
 
             for (int sq = 0; sq < array[i].size; sq++) {
-                if (tempGrid[array[i].row + sq * (array[i].orientation == 'v')][array[i].col +
-                                                                                sq * (array[i].orientation == 'h')] >
-                    0) {
+                if (tempGrid[array[i].row + sq * (array[i].orientation == 'v')][array[i].col + sq * (array[i].orientation == 'h')] > 0) {
                     squaresTaken++;
                 }
             }

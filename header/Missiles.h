@@ -15,12 +15,12 @@ typedef struct {
 
 void init_inventory(Inventory *inventoryToInit, int difficulty);
 
-void fire_artillery(Grid *grid, Boat *boatArray, int row, int col);
+void fire_artillery(Grid *grid, Boat *boatArray, int row, int col, int *hitCnt, int *destroyedCnt, Inventory *inventory, int gameMode);
 
-void fire_tactical(Grid *grid, Boat *boatArray, int row, int col);
+void fire_tactical(Grid *grid, Boat *boatArray, int row, int col, int *hitCnt, int *destroyedCnt, Inventory *inventory);
 
-void fire_bomb(Grid *grid, Boat *boatArray, int row, int col);
+void fire_bomb(Grid *grid, Boat *boatArray, int row, int col, int *hitCnt, int *destroyedCnt, Inventory *inventory);
 
-void fire_single(Grid *grid, Boat *boatArray, int row, int col);
+void fire_single(Grid *grid, Boat *boatArray, int row, int col, int *hitCnt, int *destroyedCnt, Inventory *inventory);
 
 #endif //IFE_PROJECT_MISSILES_H

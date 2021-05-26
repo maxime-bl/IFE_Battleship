@@ -117,7 +117,8 @@ void show_boat_health(Boat boat) {
 }
 
 
-void show_grid(Grid grid, Boat *boatArr, Inventory inv, int mode) {
+//nightmare
+void show_grid(Grid grid, Boat *boatArr, Inventory inv, int mode, int hitCnt, int destroyedCnt) {
     fifty_line_breaks();
 
     // TO-DO :  make the top message functional
@@ -129,7 +130,7 @@ void show_grid(Grid grid, Boat *boatArr, Inventory inv, int mode) {
             "║                 └──────────────┘                 ╠════════════════════╤═════╣  ║\n"
             "║      0   1   2   3   4   5   6   7   8   9       ║ Artillery          │%02d/%02d║  ║\n"
             "║    ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐     ╟────────────────────┼─────╢  ║\n"
-            "║  A │", 0, 0, inv.artilleryCnt, inv.maxArtillery);
+            "║  A │", hitCnt, destroyedCnt, inv.artilleryCnt, inv.maxArtillery);
     print_row(grid.array[0], grid.width);
 
     wprintf(L"     ║ Tactical           │%02d/%02d║  ║\n"
@@ -239,7 +240,7 @@ void show_mode_menu() {
 }
 
 
-void display_window(int windowID, Grid grid, Boat *boatArray, Inventory inv, int mode) {
+void display_window(int windowID, Grid grid, Boat *boatArray, Inventory inv, int mode, int hitCnt, int DestroyedCnt) {
     switch (windowID) {
         case MAIN_MENU:
             show_main_menu();
@@ -251,7 +252,7 @@ void display_window(int windowID, Grid grid, Boat *boatArray, Inventory inv, int
             show_mode_menu();
             break;
         case GAME_WINDOW:
-            show_grid(grid, boatArray, inv, mode);
+            show_grid(grid, boatArray, inv, mode, hitCnt, DestroyedCnt);
             break;
     }
 }
