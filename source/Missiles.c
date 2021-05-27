@@ -2,6 +2,7 @@
 // Created by maxim on 15/05/2021.
 //
 
+#include <stdio.h>
 #include "../header/Missiles.h"
 #include "../header/Grid.h"
 #include "../header/Boats.h"
@@ -37,28 +38,15 @@ void init_inventory(Inventory *inventory, int diff) {
 }
 
 
-void hit_square(int row, int col) {
-
-}
-
-
-void fire_artillery(Grid *grid, Boat *boatArray, int missileRow, int missileCol, int *hitCnt, int *destroyedCnt,
-                    Inventory *inv, int gameMode) {
-
-    inv->artilleryCnt--;
-    int squaresHit[5] = {0, 0, 0, 0, 0};
-
-    //check every square in the row of the missile
-    int row = missileRow;
-    for (int col = 0; col < grid->width; col++) {
-        //for each square of the row
+void hit_square(int row, int col, Grid *grid, Boat *boatArray, int gameMode, int squaresHit[5]) {
+    if (row >= 0 && col >= 0 && row < grid->height && col < grid->width) {
         int isSquareEmpty = 1;
         for (int b = 0; b < 5; b++) {
             //for each boat
             for (int sq = 0; sq < boatArray[b].size; sq++) {
                 //for each square of the boat
-                int sqRow = boatArray[b].row + (boatArray[b].orientation == 'h') * sq;
-                int sqCol = boatArray[b].col + (boatArray[b].orientation == 'v') * sq;
+                int sqRow = boatArray[b].row + (boatArray[b].orientation == 'v') * sq;
+                int sqCol = boatArray[b].col + (boatArray[b].orientation == 'h') * sq;
 
                 if (row == sqRow && col == sqCol) { //if the square of the boat is at the coordinates
                     isSquareEmpty = 0;
@@ -74,55 +62,59 @@ void fire_artillery(Grid *grid, Boat *boatArray, int missileRow, int missileCol,
             grid->array[row][col] = 'O';
         }
     }
+}
+
+
+void fire_artillery(Grid *grid, Boat *boatArray, int missileRow, int missileCol, int *hitCnt, int *destroyedCnt,
+                    Inventory *inv, int gameMode) {
+
+    inv->artilleryCnt--;
+    int squaresHit[5] = {0, 0, 0, 0, 0};
+
+    //check every square in the row of the missile
+    int row = missileRow;
+    for (int col = 0; col < grid->width; col++) {
+        //for each square of the row
+        hit_square(row, col, grid, boatArray, gameMode, squaresHit);
+    }
 
     int col = missileCol;
     for (int row = 0; row < grid->width; row++) {
         //for each square of the col
         if (row != missileRow) {
-            int isSquareEmpty = 1;
-            for (int b = 0; b < 5; b++) {
-                //for each boat
-                if (is_alive(boatArray[b])) { //if the boat has at least one square that is not hit yet
-                    for (int sq = 0; sq < boatArray[b].size; sq++) {
-                        //for each square of the boat
-                        int sqRow = boatArray[b].row + (boatArray[b].orientation == 'h') * sq;
-                        int sqCol = boatArray[b].col + (boatArray[b].orientation == 'v') * sq;
-
-                        if (row == sqRow && col == sqCol) { // if the square of the boat is at the coordinates
-                            isSquareEmpty = 0;
-                            if (boatArray[b].squares[sq]) { //square was not hit yet
-                                grid->array[sqRow][sqCol] = 'X';
-                                boatArray[b].squares[sq] = 0;
-                                squaresHit[b]++;
-                            }
-                        }
-                    }
-                }
-            }
-            if (isSquareEmpty && gameMode == 1) {
-                grid->array[row][col] = 'O';
-            }
+            hit_square(row, col, grid, boatArray, gameMode, squaresHit);
         }
     }
 
     //set hitCnt and destroyedCnt
     *hitCnt = 0;
     *destroyedCnt = 0;
+    wprintf(L"%d %d %d %d %d\n",squaresHit[0],squaresHit[1],squaresHit[2],squaresHit[3],squaresHit[4]);
 
     for (int b = 0; b < 5; b++) {
-        if (squaresHit[b]) {
+        if (squaresHit[b] > 0) {
             if (is_alive(boatArray[b])) {
-                *hitCnt++;
+                *hitCnt += 1;
             } else {
-                *destroyedCnt++;
+                *destroyedCnt += 1;
             }
         }
     }
+
 }
 
 
-void fire_tactical(Grid *grid, Boat *boatArray, int row, int col, int *hitCnt, int *destroyedCnt, Inventory *inv) {
+void fire_tactical(Grid *grid, Boat *boatArray, int missileRow, int missileCol, int *hitCnt, int *destroyedCnt,
+                   Inventory *inv, int gameMode) {
+    inv->tacticalCnt--;
+    int squaresHit[5] = {0, 0, 0, 0, 0};
 
+    //temp
+    for (int row = 0; row < 10; row++) {
+        for (int col = 0; col < 10; col++) {
+            hit_square(row, col, grid, boatArray, gameMode, squaresHit);
+        }
+    }
 }
 
 

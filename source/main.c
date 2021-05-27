@@ -72,7 +72,6 @@ void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int 
             dialogID = GAMEMODE_MENU;
             windowID = GAMEMODE_MENU;
             init_inventory(&inventory, difficulty);
-            wprintf(L"Bombs : %d\n", inventory.bombCnt);
             break;
 
             // game mode menu
@@ -113,9 +112,10 @@ void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int 
             switch (missile) {
                 case 1:
                     fire_artillery(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory, gameMode);
+                    wprintf(L"hit %d, destroyed %d\n", boatHitCnt, boatDestroyedCnt);
                     break;
                 case 2:
-                    fire_tactical(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory);
+                    fire_tactical(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory, gameMode);
                     break;
                 case 3:
                     fire_bomb(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory);

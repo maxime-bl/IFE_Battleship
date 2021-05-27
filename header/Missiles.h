@@ -17,7 +17,7 @@ void init_inventory(Inventory *inventoryToInit, int difficulty);
 
 void fire_artillery(Grid *grid, Boat *boatArray, int row, int col, int *hitCnt, int *destroyedCnt, Inventory *inventory, int gameMode);
 
-void fire_tactical(Grid *grid, Boat *boatArray, int row, int col, int *hitCnt, int *destroyedCnt, Inventory *inventory);
+void fire_tactical(Grid *grid, Boat *boatArray, int row, int col, int *hitCnt, int *destroyedCnt, Inventory *inventory, int gameMode);
 
 void fire_bomb(Grid *grid, Boat *boatArray, int row, int col, int *hitCnt, int *destroyedCnt, Inventory *inventory);
 

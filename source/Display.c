@@ -79,9 +79,22 @@ void show_main_menu() {
 
 
 // prints one row of the grid
-void print_row(char *arr, int rowLength) {
-    for (int i = 0; i < rowLength; i++) {
-        wprintf(L" %c │", arr[i]);
+void print_row(Grid grid, int rowNumber) {
+    for (int i = 0; i < grid.width; i++) {
+        switch (grid.array[rowNumber][i]) {
+            case '_':
+                wprintf(L"\x1b[34m");
+                break;
+            case 'X':
+                wprintf(L"\x1b[91m");
+                break;
+            case 'O':
+                wprintf(L"\x1b[36m");
+                break;
+            default:
+                break;
+        }
+        wprintf(L" %c \x1b[0m│", grid.array[rowNumber][i]);
     }
 }
 
@@ -123,7 +136,7 @@ void show_grid(Grid grid, Boat *boatArr, Inventory inv, int mode, int hitCnt, in
 
     // TO-DO :  make the top message functional
     wprintf(L"╔════════════════════════════════════════════════════════════════════════════════╗\n"
-            "║ Last round, %d ships were touched and %d destroyed                               ║\n"
+            "║ Last round, \x1b[92m%d\x1b[0m ships were hit and \x1b[92m%d\x1b[0m were destroyed                              ║\n"
             "╟────────────────────────────────────────────────────────────────────────────────╢\n"
             "║                 ┌──────────────┐                 ╔══════════════════════════╗  ║\n"
             "║                 │     GRID     │                 ║ Remaining missiles       ║  ║\n"
@@ -131,62 +144,61 @@ void show_grid(Grid grid, Boat *boatArr, Inventory inv, int mode, int hitCnt, in
             "║      0   1   2   3   4   5   6   7   8   9       ║ Artillery          │%02d/%02d║  ║\n"
             "║    ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐     ╟────────────────────┼─────╢  ║\n"
             "║  A │", hitCnt, destroyedCnt, inv.artilleryCnt, inv.maxArtillery);
-    print_row(grid.array[0], grid.width);
+    print_row(grid, 0);
 
     wprintf(L"     ║ Tactical           │%02d/%02d║  ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤     ╟────────────────────┼─────╢  ║\n"
             "║  B │", inv.tacticalCnt, inv.maxTactical);
-    print_row(grid.array[1], grid.width);
+    print_row(grid, 1);
 
     wprintf(L"     ║ Bomb               │%02d/%02d║  ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤     ╟────────────────────┼─────╢  ║\n"
             "║  C │", inv.bombCnt, inv.maxBomb);
-    print_row(grid.array[2], grid.width);
+    print_row(grid, 2);
 
     wprintf(L"     ║ Single             │%02d/%02d║  ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤     ╚════════════════════╧═════╝  ║\n"
             "║  D │", inv.singleCnt, inv.maxSingle);
-    print_row(grid.array[3], grid.width);
+    print_row(grid, 3);
 
     wprintf(L"                                   ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤     ╔══════════════════════════╗  ║\n"
             "║  E │");
-    print_row(grid.array[4], grid.width);
+    print_row(grid, 4);
 
     wprintf(L"     ║ Remaining fleet          ║  ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤     ╠════════════════╤═════════╣  ║\n"
             "║  F │");
-    print_row(grid.array[5], grid.width);
+    print_row(grid, 5);
 
     show_boat_health(boatArr[0]);
     wprintf(L"  ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤     ╟────────────────┼─────────╢  ║\n"
             "║  G │");
-    print_row(grid.array[6], grid.width);
+    print_row(grid, 6);
 
     show_boat_health(boatArr[1]);
     wprintf(L"  ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤     ╟────────────────┼─────────╢  ║\n"
             "║  H │");
-    print_row(grid.array[7], grid.width);
+    print_row(grid, 7);
 
     show_boat_health(boatArr[2]);
     wprintf(L"  ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤     ╟────────────────┼─────────╢  ║\n"
             "║  I │");
-    print_row(grid.array[8], grid.width);
+    print_row(grid, 8);
 
     show_boat_health(boatArr[3]);
     wprintf(L"  ║\n"
             "║    ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤     ╟────────────────┼─────────╢  ║\n"
             "║  J │");
-    print_row(grid.array[9], grid.width);
+    print_row(grid, 9);
 
     show_boat_health(boatArr[4]);
     wprintf(L"  ║\n"
             "║    └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘     ╚════════════════╧═════════╝  ║\n"
             "╟────────────────────────────────────────────────────────────────────────────────╢\n");
-
 
 
 }
@@ -253,6 +265,9 @@ void display_window(int windowID, Grid grid, Boat *boatArray, Inventory inv, int
             break;
         case GAME_WINDOW:
             show_grid(grid, boatArray, inv, mode, hitCnt, DestroyedCnt);
+            /*for (int i=0; i<5; i++){
+                wprintf(L"%c %d, %d %d\n", boatArray[i].orientation, boatArray[i].size, boatArray[i].row, boatArray[i].col);
+            }*/
             break;
     }
 }
