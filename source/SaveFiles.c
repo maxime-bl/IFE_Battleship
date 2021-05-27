@@ -18,7 +18,7 @@ void savefile() {
         fclose(gamesave);
     }
     else{
-        printf("Error: the file cannot be loaded \n")
+        printf("Error: the file cannot be loaded \n");
     }
 
 }
@@ -35,7 +35,7 @@ void loadfile() {
         fclose(gamesave);
     }
     else{
-        printf("Error: the file cannot be loaded \n")
+        printf("Error: the file cannot be loaded \n");
     }
 
 }

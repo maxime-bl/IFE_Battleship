@@ -118,10 +118,10 @@ void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int 
                     fire_tactical(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory, gameMode);
                     break;
                 case 3:
-                    fire_bomb(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory);
+                    fire_bomb(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory, gameMode);
                     break;
                 case 4:
-                    fire_single(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory);
+                    fire_single(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory, gameMode);
                     break;
             }
             dialogID = PLAY_OR_QUIT;

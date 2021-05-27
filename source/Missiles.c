@@ -89,7 +89,7 @@ void fire_artillery(Grid *grid, Boat *boatArray, int missileRow, int missileCol,
     //set hitCnt and destroyedCnt
     *hitCnt = 0;
     *destroyedCnt = 0;
-    wprintf(L"%d %d %d %d %d\n",squaresHit[0],squaresHit[1],squaresHit[2],squaresHit[3],squaresHit[4]);
+    //wprintf(L"%d %d %d %d %d\n", squaresHit[0], squaresHit[1], squaresHit[2], squaresHit[3], squaresHit[4]);
 
     for (int b = 0; b < 5; b++) {
         if (squaresHit[b] > 0) {
@@ -118,11 +118,54 @@ void fire_tactical(Grid *grid, Boat *boatArray, int missileRow, int missileCol, 
 }
 
 
-void fire_bomb(Grid *grid, Boat *boatArray, int row, int col, int *hitCnt, int *destroyedCnt, Inventory *inv) {
+void fire_bomb(Grid *grid, Boat *boatArray, int missileRow, int missileCol, int *hitCnt, int *destroyedCnt,
+               Inventory *inv, int gameMode) {
+    inv->bombCnt--;
+    int squaresHit[5] = {0, 0, 0, 0, 0};
 
+    for (int r=-1; r<=1; r++){
+        for (int c=-1; c<=1; c++){
+            hit_square(missileRow+r, missileCol+c, grid, boatArray, gameMode, squaresHit);
+        }
+    }
+
+    hit_square(missileRow-2, missileCol, grid, boatArray, gameMode, squaresHit);
+    hit_square(missileRow+2, missileCol, grid, boatArray, gameMode, squaresHit);
+    hit_square(missileRow, missileCol-2, grid, boatArray, gameMode, squaresHit);
+    hit_square(missileRow, missileCol+2, grid, boatArray, gameMode, squaresHit);
+
+    *hitCnt = 0;
+    *destroyedCnt = 0;
+
+    for (int b = 0; b < 5; b++) {
+        if (squaresHit[b] > 0) {
+            if (is_alive(boatArray[b])) {
+                *hitCnt += 1;
+            } else {
+                *destroyedCnt += 1;
+            }
+        }
+    }
 }
 
 
-void fire_single(Grid *grid, Boat *boatArray, int row, int col, int *hitCnt, int *destroyedCnt, Inventory *inv) {
+void fire_single(Grid *grid, Boat *boatArray, int missileRow, int missileCol, int *hitCnt, int *destroyedCnt,
+                 Inventory *inv, int gameMode) {
+    inv->singleCnt--;
+    int squaresHit[5] = {0, 0, 0, 0, 0};
 
+    hit_square(missileRow, missileCol, grid, boatArray, gameMode, squaresHit);
+
+    *hitCnt = 0;
+    *destroyedCnt = 0;
+
+    for (int b = 0; b < 5; b++) {
+        if (squaresHit[b] > 0) {
+            if (is_alive(boatArray[b])) {
+                *hitCnt += 1;
+            } else {
+                *destroyedCnt += 1;
+            }
+        }
+    }
 }
