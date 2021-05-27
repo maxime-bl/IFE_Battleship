@@ -21,6 +21,7 @@
 #define CHOOSE_MISSILE  4
 #define CHOOSE_ROW  5
 #define CHOOSE_COLUMN  6
+#define RESTART 7
 
 
 typedef struct {

@@ -10,6 +10,8 @@
 
 // window IDs
 #define GAME_WINDOW 3
+#define VICTORY_WINDOW 4
+#define DEFEAT_WINDOW 5
 
 void show_main_menu();
 
