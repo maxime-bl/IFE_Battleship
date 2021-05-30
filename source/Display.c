@@ -103,10 +103,29 @@ void print_row(Grid grid, int rowNumber) {
 void show_boat_health(Boat boat) {
     int health = 0;
     wprintf(L"     ║");
+
+    //get boat health
     for (int i = 0; i < boat.size; i++) {
-        if (boat.squares[i] > 0) {
-            wprintf(L" ●");
+        if (boat.squares[i]){
             health++;
+        }
+    }
+
+    //get state
+    unsigned short *state;
+    if (health == 0) {
+        state = L"\x1b[91mDESTROYED\x1b[0m";
+    } else if (health < boat.size) {
+        state = L"\x1b[93mHIT      \x1b[0m";
+    } else {
+        state = L"\x1b[92mINTACT   \x1b[0m";
+    }
+
+    //show health bar
+    for (int i = 0; i < boat.size; i++) {
+        if (health > 0) {
+            wprintf(L" ●");
+            health--;
         } else {
             wprintf(L" X");
         }
@@ -116,16 +135,7 @@ void show_boat_health(Boat boat) {
         wprintf(L"  ");
     }
 
-    unsigned short *state;
-
-    if (health == 0) {
-        state = L"\x1b[91mDESTROYED\x1b[0m";
-    } else if (health < boat.size) {
-        state = L"\x1b[93mHIT      \x1b[0m";
-    } else {
-        state = L"\x1b[92mINTACT   \x1b[0m";
-    }
-
+    //show state
     wprintf(L"│%s║", state);
 }
 
@@ -252,6 +262,61 @@ void show_mode_menu() {
 }
 
 
+void show_victory_menu(){
+    fifty_line_breaks();
+    wprintf(L"╔════════════════════════════════════════════════════════════════════════════════╗\n"
+            "║                                                                                ║\n"
+            "║                                                  .''.                          ║\n"
+            "║                      .''.      .        *''*    :_\\/_:     .                   ║\n"
+            "║                     :_\\/_:   _\\(/_  .:.*_\\/_*   : /\\ :  .'.:.'.                ║\n"
+            "║                 .''.: /\\ :   ./)\\   ':'* /\\ * :  '..'.  -=:o:=-                ║\n"
+            "║                :_\\/_:'.:::.    ' *''*    * '.\\'/.' _\\(/_'.':'.'                ║\n"
+            "║                : /\\ : :::::     *_\\/_*     -= o =-  /)\\    '  *                ║\n"
+            "║                 '..'  ':::'     * /\\ *     .'/.\\'.   '                         ║\n"
+            "║                     *            *..*         :                                ║\n"
+            "║                       *                                                        ║\n"
+            "║                       *      .                 |                               ║\n"
+            "║                              +                 |                               ║\n"
+            "║                     .        |                *+W+-*                           ║\n"
+            "║        .           +y        +W+              . H                 .            ║\n"
+            "║     .  +y            |I.   y  |               ! H= .           .  ^            ║\n"
+            "║     !   \\     .     |H '. /   |  ___.        .! H  !   +--.--y !  V            ║\n"
+            "║     !    \\     \\  +=|H|=='.=+ | |====\\   _  '_H_H__H_. H_/=  J !  !            ║\n"
+            "║   . !     \\'    VVV_HHH_/__'._H |  E  \\_|=|_|========|_|==|____H. ! _______.   ║\n"
+            "║   I-H_I=I=HH_==_|I_IIIII_I_I_=HH|======.I-I-I-=======-I=I=I=I_=H|=H'===I=I/    ║\n"
+            "║   \\                                                                      ,     ║\n"
+            "║    |                                                                    /      ║\n"
+            "║    .___________________________________________________________________'       ║\n"
+            "║                                                                                ║\n"
+            "║                         ┌─────────────────────────────┐                        ║\n"
+            "║                         │  CONGRATULATION, YOU WON !  │                        ║\n"
+            "║                         └─────────────────────────────┘                        ║\n"
+            "╟────────────────────────────────────────────────────────────────────────────────╢\n");
+}
+
+
+void show_defeat_menu(){
+    fifty_line_breaks();
+    wprintf(L"╔════════════════════════════════════════════════════════════════════════════════╗\n"
+            "║                                                                                ║\n"
+            "║                                _.-^^---....,,--                                ║\n"
+            "║                           _--                  --_                             ║\n"
+            "║                          <                        >)                           ║\n"
+            "║                          |                         |                           ║\n"
+            "║                           \\._                   _./                            ║\n"
+            "║                              ```--. . , ; .--'''                               ║\n"
+            "║                                    | |   |                                     ║\n"
+            "║                                 .-=||  | |=-.                                  ║\n"
+            "║                                 `-=#$%&%$#=-'                                    ║\n"
+            "║                                    | ;  :|                                     ║\n"
+            "║                           _____.,-#%&$@%#&#~,._____                               ║\n"
+            "║                                                                                ║\n"
+            "║                               ┌────────────────┐                               ║\n"
+            "║                               │    YOU LOST    │                               ║\n"
+            "║                               └────────────────┘                               ║\n"
+            "╟────────────────────────────────────────────────────────────────────────────────╢\n");
+}
+
 void display_window(int windowID, Grid grid, Boat *boatArray, Inventory inv, int mode, int hitCnt, int DestroyedCnt) {
     switch (windowID) {
         case MAIN_MENU:
@@ -268,6 +333,12 @@ void display_window(int windowID, Grid grid, Boat *boatArray, Inventory inv, int
             /*for (int i=0; i<5; i++){
                 wprintf(L"%c %d, %d %d\n", boatArray[i].orientation, boatArray[i].size, boatArray[i].row, boatArray[i].col);
             }*/
+            break;
+        case VICTORY_WINDOW:
+            show_victory_menu();
+            break;
+        case DEFEAT_WINDOW:
+            show_defeat_menu();
             break;
     }
 }

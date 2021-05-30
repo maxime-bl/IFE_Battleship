@@ -27,7 +27,7 @@ void reset() {
 
     reset_grid(&grid);
     reset_boats(boatArray);
-    place_boats(boatArray, grid);
+    //place_boats(boatArray, grid);
 
 }
 
@@ -99,12 +99,12 @@ void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int 
             dialogID = CHOOSE_ROW;
             break;
         case CHOOSE_ROW:
-            row = answer-97;
+            row = answer - 97;
             dialogID = CHOOSE_COLUMN;
             break;
         case CHOOSE_COLUMN:
             col = answer;
-            if (gameMode > 1){
+            if (gameMode > 1) {
                 reset_grid(&grid);
             }
 
@@ -112,7 +112,6 @@ void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int 
             switch (missile) {
                 case 1:
                     fire_artillery(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory, gameMode);
-                    wprintf(L"hit %d, destroyed %d\n", boatHitCnt, boatDestroyedCnt);
                     break;
                 case 2:
                     fire_tactical(&grid, boatArray, row, col, &boatHitCnt, &boatDestroyedCnt, &inventory, gameMode);
@@ -125,6 +124,40 @@ void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int 
                     break;
             }
             dialogID = PLAY_OR_QUIT;
+
+            // Defeat condition
+            int missileCnt = 0;
+            missileCnt += inventory.artilleryCnt;
+            missileCnt += inventory.tacticalCnt;
+            missileCnt += inventory.bombCnt;
+            missileCnt += inventory.singleCnt;
+            if (missileCnt == 0) {
+                windowID = DEFEAT_WINDOW;
+                dialogID = RESTART;
+            }
+
+            // Victory condition
+            int boatsAlive = 0;
+            for (int b = 0; b < 5; b++) {
+                if (is_alive(boatArray[b])) {
+                    boatsAlive++;
+                }
+            }
+            if (!boatsAlive) {
+                windowID = VICTORY_WINDOW;
+                dialogID = RESTART;
+            }
+
+            break;
+        case RESTART:
+            switch (answer) {
+                case 1:
+                    reset();
+                    break;
+                case 2:
+                    gameLoop = 0;
+                    break;
+            }
             break;
 
     }

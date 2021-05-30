@@ -27,7 +27,10 @@ void init_dialogs(Dialog *dialogArray) {
                                            "║    ► Bomb (Enter '3')                                                          ║\n"
                                            "║    ► Simple missile (Enter '4')                                                ║\n"
                                            "╚════════════════════════════════════════════════════════════════════════════════╝\n";
-    dialogArray[7].question = L"Default dialog\n";
+    dialogArray[RESTART].question = L"║  Do you want to play again?                                                    ║\n"
+                                    "║    ► Press '1' to start a new game                                             ║\n"
+                                    "║    ► Press '2' to quit                                                         ║\n"
+                                    "╚════════════════════════════════════════════════════════════════════════════════╝\n";
 
 }
 
@@ -127,8 +130,7 @@ int check_answer(int answer, int dialogID, Inventory inv) {
                     return OUT_OF_BOUNDS;
                 }
             case PLAY_OR_QUIT:
-            case 7:
-            case 8:
+            case RESTART:
                 if (answer == 1 || answer == 2) {
                     return 0;
                 } else {
