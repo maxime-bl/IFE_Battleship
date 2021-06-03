@@ -15,11 +15,11 @@
 
 void show_main_menu();
 
-void show_grid(Grid grid, Boat *boatArray, Inventory inventory, int gameMode, int boatHitCnt, int boatDestroyedCnt);
+void show_grid(Grid grid, Boat *boatArray, Inventory inventory, int gameMode, int boatHitCnt, int boatDestroyedCnt, int boatMoved);
 
 int init_display();
 
 void display_window(int windowID, Grid grid, Boat *boatArray, Inventory inventory, int gameMode, int boatHitCnt,
-                    int boatDestroyedCnt);
+                    int boatDestroyedCnt, int boatMoved);
 
 #endif //IFE_PROJECT_DISPLAY_H

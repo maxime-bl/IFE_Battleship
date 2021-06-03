@@ -54,11 +54,13 @@ void hit_square(int row, int col, Grid *grid, Boat *boatArray, int gameMode, int
                         grid->array[sqRow][sqCol] = 'X';
                         boatArray[b].squares[sq] = 0;
                         squaresHit[b]++;
+                    } else {
+                        grid->array[sqRow][sqCol] = 'x';
                     }
                 }
             }
         }
-        if (isSquareEmpty && gameMode == 1) {
+        if (isSquareEmpty) {
             grid->array[row][col] = 'O';
         }
     }

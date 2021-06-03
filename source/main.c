@@ -8,9 +8,9 @@
 #include "../header/Missiles.h"
 #include "../header/Display.h"
 
-int errorCode, answer, gameLoop, dialogID, windowID, difficulty, gameMode;
+int errorCode, answer, gameLoop, dialogID, windowID, difficulty, gameMode, turnCnt;
 int missile, row, col;
-int boatHitCnt, boatDestroyedCnt;
+int boatHitCnt, boatDestroyedCnt, boatMoved;
 Dialog dialogArray[9];
 Boat boatArray[5];
 Grid grid;
@@ -24,6 +24,8 @@ void reset() {
     dialogID = MAIN_MENU;
     boatHitCnt = 0;
     boatDestroyedCnt = 0;
+    turnCnt = 1;
+    boatMoved = 0;
 
     reset_grid(&grid);
     reset_boats(boatArray);
@@ -46,7 +48,7 @@ void init() {
 }
 
 
-void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int *row, int *col*/) {
+void do_something() {
     switch (dialogID) {
         // main menu
         case MAIN_MENU:
@@ -58,7 +60,6 @@ void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int 
                 case 2:
                     //LOAD THE GAME FROM FILE
                     //GO TO THE GAME WINDOW
-                    //DIALOG = PLAY_OR_QUIT
                     break;
                 case 3:
                     gameLoop = 0;
@@ -104,6 +105,10 @@ void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int 
             break;
         case CHOOSE_COLUMN:
             col = answer;
+            turnCnt++;
+            boatMoved = 0;
+
+            // Blind or active
             if (gameMode > 1) {
                 reset_grid(&grid);
             }
@@ -124,6 +129,12 @@ void do_something(/*int *dialogID, int *windowID, int answer, int *missile, int 
                     break;
             }
             dialogID = PLAY_OR_QUIT;
+
+            // Active mode
+            if (gameMode == 3 && turnCnt % (4 - difficulty) == 0) {
+                move_a_boat(boatArray, difficulty, grid);
+                boatMoved = 1;
+            }
 
             // Defeat condition
             int missileCnt = 0;
@@ -168,7 +179,7 @@ int main() {
     init();
 
     while (gameLoop) {
-        display_window(windowID, grid, boatArray, inventory, gameMode, boatHitCnt, boatDestroyedCnt);
+        display_window(windowID, grid, boatArray, inventory, gameMode, boatHitCnt, boatDestroyedCnt, boatMoved);
 
         show_dialog(dialogID, errorCode, dialogArray);
         //wprintf(L"Dialog %d, window %d, last answer %d\n", dialogID, windowID, answer);
@@ -177,8 +188,7 @@ int main() {
         errorCode = check_answer(answer, dialogID, inventory);
 
         if (!errorCode) {
-            do_something(&dialogID, &windowID, answer, &missile, &row, &col);
-            // change question ID
+            do_something();
         }
     }
 

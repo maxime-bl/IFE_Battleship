@@ -21,6 +21,8 @@ void place_boats(Boat *boatArray, Grid grid);
 
 int is_alive(Boat boat);
 
+void move_a_boat(Boat *boatArray, int difficulty, Grid grid);
+
 #endif //IFE_PROJECT_BOATS_H
 
 
