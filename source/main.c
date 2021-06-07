@@ -7,6 +7,7 @@
 #include "../header/Grid.h"
 #include "../header/Missiles.h"
 #include "../header/Display.h"
+#include "../header/SaveFiles.h"
 
 int errorCode, answer, gameLoop, dialogID, windowID, difficulty, gameMode, turnCnt;
 int missile, row, col;
@@ -45,6 +46,7 @@ void init() {
     init_boats(boatArray);
 
     reset();
+
 }
 
 
@@ -58,8 +60,9 @@ void do_something() {
                     windowID = DIFF_MENU;
                     break;
                 case 2:
-                    //LOAD THE GAME FROM FILE
-                    //GO TO THE GAME WINDOW
+                    errorCode = load_file(&difficulty , &gameMode, &turnCnt, &boatHitCnt, &boatDestroyedCnt, &grid, &inventory, boatArray);
+                    windowID = GAME_WINDOW;
+                    dialogID = PLAY_OR_QUIT;
                     break;
                 case 3:
                     gameLoop = 0;
@@ -90,7 +93,7 @@ void do_something() {
                     dialogID = CHOOSE_MISSILE;
                     break;
                 case 2:
-                    // SAVE THE GAME
+                    save_file(difficulty, gameMode, turnCnt, boatHitCnt, boatDestroyedCnt, grid, inventory, boatArray);
                     gameLoop = 0;
                     break;
             }

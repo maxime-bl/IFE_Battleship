@@ -12,6 +12,11 @@
 #define OUT_OF_BOUNDS  2
 #define UNKNOWN_DIALOG_ID  3
 #define OUT_OF_AMMO  4
+#define SAVING_ERROR 5
+#define NO_SAVEFILE 6
+#define LOADING_ERROR 7
+
+
 
 // dialogs ID
 #define MAIN_MENU 0

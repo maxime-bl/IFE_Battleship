@@ -143,7 +143,7 @@ void fire_tactical(Grid *grid, Boat *boatArray, int missileRow, int missileCol, 
 
     update_hit_counter(hitCnt, destroyedCnt, squaresHit, boatArray);
 
-    if (isSquareEmpty && gameMode == 1) {
+    if (isSquareEmpty) {
         grid->array[missileRow][missileCol] = 'O';
     }
 }

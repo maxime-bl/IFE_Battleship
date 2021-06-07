@@ -57,6 +57,10 @@ void show_dialog(int dialogID, int errorCode, Dialog *dialogArray) {
             wprintf(L"\x1b[97m║               \x1b[91mThis weapon is out of ammunition. Try another one                \x1b[0m║\n"
                     "║                                                                                ║\n");
             break;
+        case NO_SAVEFILE:
+            wprintf(L"\x1b[97m║                     \x1b[91mError: There is no save file to load.                      \x1b[0m║\n"
+                    "║                                                                                ║\n");
+            break;
         default:
             wprintf(L"\x1b[97m║\x1b[91mERROR: the error you caused is not listed. Congratulations, you broke the game  \x1b[0m║\n"
                     "║                                                                                ║\n");
