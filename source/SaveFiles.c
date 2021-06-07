@@ -13,11 +13,11 @@
 
 // Save the game data in a text file
 void save_file(int diff, int gameMode, int turnCnt, int boatsHit, int boatsDestroyed, Grid grid, Inventory inv,
-               Boat *boatArray) {
+               Boat *boatArray, int boatMoved) {
     FILE *gamesave;
     gamesave = fopen("savefile.txt", "w");
     if (gamesave != NULL) {
-        fprintf(gamesave, "%d;%d;%d;%d;%d\n", diff, gameMode, turnCnt, boatsHit, boatsDestroyed);
+        fprintf(gamesave, "%d;%d;%d;%d;%d;%d\n", diff, gameMode, turnCnt, boatsHit, boatsDestroyed, boatMoved);
         fprintf(gamesave, "%d;%d;%d;%d\n", inv.artilleryCnt, inv.tacticalCnt, inv.bombCnt, inv.singleCnt);
 
         for (int row = 0; row < grid.height; row++) {
@@ -50,7 +50,7 @@ void save_file(int diff, int gameMode, int turnCnt, int boatsHit, int boatsDestr
 
 // Load last game data from the file
 int load_file(int *difficulty, int *gameMode, int *turnCnt, int *boatsHit, int *boatsDestroyed, Grid *grid,
-              Inventory *inv, Boat *boatArray) {
+              Inventory *inv, Boat *boatArray, int *boatMoved) {
 
     FILE *gamesave;
     gamesave = fopen("savefile.txt", "r");
@@ -58,7 +58,7 @@ int load_file(int *difficulty, int *gameMode, int *turnCnt, int *boatsHit, int *
     if (gamesave != NULL) {
         char buffer[25];
 
-        fscanf(gamesave, "%d;%d;%d;%d;%d\n", difficulty, gameMode, turnCnt, boatsHit, boatsDestroyed);
+        fscanf(gamesave, "%d;%d;%d;%d;%d;%d\n", difficulty, gameMode, turnCnt, boatsHit, boatsDestroyed, boatMoved);
         init_inventory(inv, *difficulty);
         fscanf(gamesave, "%d;%d;%d;%d\n", &inv->artilleryCnt, &inv->tacticalCnt, &inv->bombCnt, &inv->singleCnt);
 

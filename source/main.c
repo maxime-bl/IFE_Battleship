@@ -60,7 +60,7 @@ void do_something() {
                     windowID = DIFF_MENU;
                     break;
                 case 2:
-                    errorCode = load_file(&difficulty , &gameMode, &turnCnt, &boatHitCnt, &boatDestroyedCnt, &grid, &inventory, boatArray);
+                    errorCode = load_file(&difficulty , &gameMode, &turnCnt, &boatHitCnt, &boatDestroyedCnt, &grid, &inventory, boatArray, &boatMoved);
                     windowID = GAME_WINDOW;
                     dialogID = PLAY_OR_QUIT;
                     break;
@@ -93,7 +93,7 @@ void do_something() {
                     dialogID = CHOOSE_MISSILE;
                     break;
                 case 2:
-                    save_file(difficulty, gameMode, turnCnt, boatHitCnt, boatDestroyedCnt, grid, inventory, boatArray);
+                    save_file(difficulty, gameMode, turnCnt, boatHitCnt, boatDestroyedCnt, grid, inventory, boatArray, boatMoved);
                     gameLoop = 0;
                     break;
             }
