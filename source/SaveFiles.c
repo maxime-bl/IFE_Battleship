@@ -12,7 +12,7 @@
 
 
 // Save the game data in a text file
-void save_file(int diff, int gameMode, int turnCnt, int boatsHit, int boatsDestroyed, Grid grid, Inventory inv,
+int save_file(int diff, int gameMode, int turnCnt, int boatsHit, int boatsDestroyed, Grid grid, Inventory inv,
                Boat *boatArray, int boatMoved) {
     FILE *gamesave;
     gamesave = fopen("savefile.txt", "w");
@@ -41,9 +41,7 @@ void save_file(int diff, int gameMode, int turnCnt, int boatsHit, int boatsDestr
 
         fclose(gamesave);
     } else {
-
-        //TODO: faire ca bien
-        wprintf(L"Error: no file to write in \n");
+        return SAVING_ERROR;
     }
 
 }

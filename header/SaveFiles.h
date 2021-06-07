@@ -8,7 +8,7 @@
 #include "Boats.h"
 #include "Missiles.h"
 
-void save_file(int difficulty, int gameMode, int turnCnt, int boatsHit, int boatsDestroyed, Grid grid, Inventory inv,
+int save_file(int difficulty, int gameMode, int turnCnt, int boatsHit, int boatsDestroyed, Grid grid, Inventory inv,
                Boat *boatArray, int boatMoved);
 
 int load_file(int *difficulty, int *gameMode, int *turnCnt, int *boatsHit, int *boatsDestroyed, Grid *grid, Inventory *inv,

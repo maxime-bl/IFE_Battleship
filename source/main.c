@@ -30,7 +30,6 @@ void reset() {
 
     reset_grid(&grid);
     reset_boats(boatArray);
-    //place_boats(boatArray, grid);
 
 }
 
@@ -93,7 +92,7 @@ void do_something() {
                     dialogID = CHOOSE_MISSILE;
                     break;
                 case 2:
-                    save_file(difficulty, gameMode, turnCnt, boatHitCnt, boatDestroyedCnt, grid, inventory, boatArray, boatMoved);
+                    errorCode = save_file(difficulty, gameMode, turnCnt, boatHitCnt, boatDestroyedCnt, grid, inventory, boatArray, boatMoved);
                     gameLoop = 0;
                     break;
             }
@@ -185,9 +184,7 @@ int main() {
         display_window(windowID, grid, boatArray, inventory, gameMode, boatHitCnt, boatDestroyedCnt, boatMoved);
 
         show_dialog(dialogID, errorCode, dialogArray);
-        //wprintf(L"Dialog %d, window %d, last answer %d\n", dialogID, windowID, answer);
         answer = get_answer();
-        //wprintf(L"%d\n", answer);
         errorCode = check_answer(answer, dialogID, inventory);
 
         if (!errorCode) {

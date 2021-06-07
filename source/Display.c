@@ -97,7 +97,6 @@ void print_row(Grid grid, int rowNumber) {
             default:
                 break;
         }
-        //wprintf(L" %c \x1b[0m│", grid.array[rowNumber][i]);
     }
 }
 
@@ -339,9 +338,6 @@ void display_window(int windowID, Grid grid, Boat *boatArray, Inventory inv, int
             break;
         case GAME_WINDOW:
             show_grid(grid, boatArray, inv, mode, hitCnt, DestroyedCnt, boatMoved);
-            /*for (int i=0; i<5; i++){
-                wprintf(L"%c %d, %d %d\n", boatArray[i].orientation, boatArray[i].size, boatArray[i].row, boatArray[i].col);
-            }*/
             break;
         case VICTORY_WINDOW:
             show_victory_menu();
