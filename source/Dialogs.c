@@ -1,7 +1,3 @@
-//
-// Created by maxim on 08/05/2021.
-//
-
 #include "../header/Dialogs.h"
 #include "../header/Missiles.h"
 #include <stdio.h>

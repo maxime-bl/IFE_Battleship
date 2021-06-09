@@ -1,7 +1,3 @@
-//
-// Created by maxim on 15/05/2021.
-//
-
 #include <stdio.h>
 #include "../header/Missiles.h"
 #include "../header/Grid.h"
@@ -10,17 +6,17 @@
 void init_inventory(Inventory *inventory, int diff) {
     switch (diff) {
         case 1: // easy
-            inventory->maxArtillery = 10;
-            inventory->maxBomb = 10;
+            inventory->maxArtillery = 3;
+            inventory->maxBomb = 3;
             inventory->maxTactical = 10;
-            inventory->maxSingle = 10;
+            inventory->maxSingle = 6;
             break;
 
         case 2: // medium
-            inventory->maxArtillery = 3;
-            inventory->maxBomb = 5;
-            inventory->maxTactical = 5;
-            inventory->maxSingle = 10;
+            inventory->maxArtillery = 2;
+            inventory->maxBomb = 3;
+            inventory->maxTactical = 10;
+            inventory->maxSingle = 5;
             break;
 
         case 3: // difficult
@@ -37,7 +33,15 @@ void init_inventory(Inventory *inventory, int diff) {
     inventory->singleCnt = inventory->maxSingle;
 }
 
-
+/* Checks if there is a boat on the square at the coordinates given
+ * Sets the state of the boat's square to 0 if it his it
+ * Update the grid according to the game mode
+ * - int row : the row of the square to hit
+ * - int col : the col of the square to hit
+ * - Grid *grid : the grid to update
+ * - Boat *boatArray : the array which contains all the boats
+ * - int gameMode : the game mode (1=easy, 2=medium, 3=difficult)
+ * - int squaresHit[5] : an array to keep track of the number of squares hit for each bot */
 void hit_square(int row, int col, Grid *grid, Boat *boatArray, int gameMode, int squaresHit[5]) {
     if (row >= 0 && col >= 0 && row < grid->height && col < grid->width) {
         int isSquareEmpty = 1;

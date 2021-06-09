@@ -1,7 +1,3 @@
-//
-// Created by maxim on 14/05/2021.
-//
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "../header/Boats.h"
@@ -30,9 +26,8 @@ void reset_boats(Boat *array) {
 }
 
 
-//place the boats randomly across the grid
 void place_boats(Boat *array, Grid grid) {
-    // initialize temporary grid
+    // initializes temporary grid
     int tempGrid[grid.height][grid.width];
     for (int row = 0; row < grid.height; row++) {
         for (int col = 0; col < grid.width; col++) {
@@ -44,15 +39,16 @@ void place_boats(Boat *array, Grid grid) {
     for (int i = 0; i < 5; i++) {
         int squaresTaken;
 
-        do { // try to place the boat in a random position while the previous one was occupied
+        do { // tries to place the boat in a random position while the previous one was occupied
             squaresTaken = 0;
             //randomize orientation, row and col of the top-left square
             array[i].orientation = 104 + (rand() % 2) * 14;
             array[i].row = rand() % (10 - (array[i].orientation == 'v') * (array[i].size - 1));
             array[i].col = rand() % (10 - (array[i].orientation == 'h') * (array[i].size - 1));
 
-            //check if squares are already used by another boat
+            //checks if squares are already used by another boat
             for (int sq = 0; sq < array[i].size; sq++) {
+                // calculates the coordinates of the square
                 int row = array[i].row + (array[i].orientation == 'v') * sq;
                 int col = array[i].col + (array[i].orientation == 'h') * sq;
 
@@ -74,11 +70,10 @@ void place_boats(Boat *array, Grid grid) {
 }
 
 
-//return 1 if the boat has at least 1 squares that was not hit
-//return 0 if all its squares were hit
 int is_alive(Boat boat) {
     int health = 0;
 
+    // Counts the number of squares alive
     for (int i = 0; i < boat.size; i++) {
         if (boat.squares[i] > 0) {
             health++;
@@ -93,10 +88,12 @@ int is_alive(Boat boat) {
 }
 
 
-// moves a random boat from 1 to 3 squares in a random direction (according to the difficulty)
 void move_a_boat(Boat *boats, int diff, Grid grid) {
-    // pick a boat randomly
-    int index = rand() % 5;
+    // pick an alive boat randomly
+    int index;
+    do {
+        index = rand() % 5;
+    } while (is_alive((boats[index])) == 0);
 
     // create a temporary grid with all other boats
     int tempGrid[grid.height][grid.width];
@@ -119,32 +116,42 @@ void move_a_boat(Boat *boats, int diff, Grid grid) {
 
     int tryCnt = 0, squaresTaken;
     int newRow, newCol;
-    do {
+    do { // tries to move the boat in a random direction and at random distance while the boats doesn't fit in the previous location
         squaresTaken = 0;
+        // randomizes distance from 1 to 3 according to the difficulty
         int dist = (rand() % diff) + 1;
+        // sets the movement randomly along the positive or negative axis
         if (rand() % 2) {
             dist = -dist;
         }
+        // picks a random direction (h or v)
         char dir = 104 + (rand() % 2) * 14;
 
+        //Calculates new coordinates
         newRow = boats[index].row + (dir == 'v') * dist;
         newCol = boats[index].col + (dir == 'h') * dist;
 
+        // check for each square of the boat if it can fit in the new coordinates
         for (int sq = 0; sq < boats[index].size; sq++) {
             int sqRow = newRow + (boats[index].orientation == 'v') * sq;
             int sqCol = newCol + (boats[index].orientation == 'h') * sq;
 
+            // If the square is out of the grid
             if (sqRow < 0 || sqRow > 9 || sqCol < 0 || sqCol > 9) {
                 squaresTaken++;
             }
+            // If the square is already taken by another boat
             if (tempGrid[sqRow][sqCol]) {
                 squaresTaken++;
             }
         }
 
-    } while (tryCnt < 50 && squaresTaken);
+        tryCnt++;
+    } while (tryCnt < 50 && squaresTaken); // Tries up to 50 times while the boat doesn't fit
 
+    // Saves the new coordinates if the boat can fit in this location
     boats[index].row = newRow;
     boats[index].col = newCol;
+
 }
 

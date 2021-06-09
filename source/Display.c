@@ -1,6 +1,3 @@
-//
-// Created by maxim on 06/05/2021.
-//
 #include "../header/Dialogs.h"
 #include <stdio.h>
 #include <io.h>
@@ -101,7 +98,7 @@ void print_row(Grid grid, int rowNumber) {
 }
 
 
-// show the boat's number of hit squares and its state
+// Prints the boat's number of hit squares and its state
 void show_boat_health(Boat boat) {
     int health = 0;
     wprintf(L"     ║");
