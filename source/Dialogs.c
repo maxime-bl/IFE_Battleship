@@ -32,7 +32,6 @@ void init_dialogs(Dialog *dialogArray) {
 
 
 void show_dialog(int dialogID, int errorCode, Dialog *dialogArray) {
-    //insert error code
     switch (errorCode) {
         case 0:
             break;

@@ -70,7 +70,11 @@ void hit_square(int row, int col, Grid *grid, Boat *boatArray, int gameMode, int
     }
 }
 
-
+/* Updates the variables which hold the number of boat hit and destroyed during the turn
+ * - int *hitCnt : pointer to the variable which holds the number of boats hit during the turn
+ * - int *destroyedCnt : pointer to the variables which holds the number of boats destroyed during the turn
+ * - int *squaresHit : array which keeps track of the number of squares hit for each boat during the turn
+ * - Boat *boatArray : the array which contains all the boats */
 void update_hit_counter(int *hitCnt, int *destroyedCnt, int *squaresHit, Boat *boatArray) {
     for (int b = 0; b < 5; b++) {
         if (squaresHit[b] > 0) {
