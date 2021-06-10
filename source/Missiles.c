@@ -58,7 +58,7 @@ void hit_square(int row, int col, Grid *grid, Boat *boatArray, int gameMode, int
                         grid->array[sqRow][sqCol] = 'X';
                         boatArray[b].squares[sq] = 0;
                         squaresHit[b]++;
-                    } else {
+                    } else if (gameMode > 1) {
                         grid->array[sqRow][sqCol] = 'x';
                     }
                 }
@@ -71,7 +71,7 @@ void hit_square(int row, int col, Grid *grid, Boat *boatArray, int gameMode, int
 }
 
 
-void update_hit_counter(int *hitCnt, int *destroyedCnt, int *squaresHit, Boat *boatArray){
+void update_hit_counter(int *hitCnt, int *destroyedCnt, int *squaresHit, Boat *boatArray) {
     for (int b = 0; b < 5; b++) {
         if (squaresHit[b] > 0) {
             if (is_alive(boatArray[b])) {

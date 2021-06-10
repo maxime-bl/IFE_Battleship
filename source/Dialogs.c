@@ -31,7 +31,6 @@ void init_dialogs(Dialog *dialogArray) {
 }
 
 
-// Prints a dialog and an error message if the last answer was invalid
 void show_dialog(int dialogID, int errorCode, Dialog *dialogArray) {
     //insert error code
     switch (errorCode) {
@@ -68,9 +67,6 @@ void show_dialog(int dialogID, int errorCode, Dialog *dialogArray) {
 }
 
 
-// Wait for the player input, get the answer and format it
-// Returns the ASCII code (lowercase) when a letter in entered
-// Returns -1 if the answer couldn't be formatted
 int get_answer() {
     char input[2];
     fgets(input, 100, stdin);
@@ -106,13 +102,6 @@ int get_answer() {
 }
 
 
-/* check if the answer to the dialog shown is valid and returns an error code
-*  0 = no error
-*  1 = invalid input
-*  2 = out of bounds
-*  3 = unknown dialogID
-*  4 = out of ammunition (missile choice)
-*/
 int check_answer(int answer, int dialogID, Inventory inv) {
 
     if (answer == -1) {
