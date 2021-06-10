@@ -7,19 +7,19 @@ void init_inventory(Inventory *inventory, int diff) {
     switch (diff) {
         case 1: // easy
             inventory->maxArtillery = 3;
-            inventory->maxBomb = 3;
-            inventory->maxTactical = 10;
-            inventory->maxSingle = 6;
+            inventory->maxBomb = 4;
+            inventory->maxTactical = 6;
+            inventory->maxSingle = 10;
             break;
 
         case 2: // medium
             inventory->maxArtillery = 2;
             inventory->maxBomb = 3;
-            inventory->maxTactical = 10;
-            inventory->maxSingle = 5;
+            inventory->maxTactical = 5;
+            inventory->maxSingle = 10;
             break;
 
-        case 3: // difficult
+        case 3:
             inventory->maxArtillery = 1;
             inventory->maxBomb = 2;
             inventory->maxTactical = 4;
